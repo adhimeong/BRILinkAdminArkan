@@ -35,7 +35,6 @@ public class DetailHadiahActivity extends AppCompatActivity{
 
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
-
     private ProgressDialog pd;
 
     //foto dari server
@@ -95,7 +94,6 @@ public class DetailHadiahActivity extends AppCompatActivity{
                 //result.setText("1805001");
                 //id_kartu = result.getText().toString();
                 //load_pointnasabah_from_server();
-
 
                 //scan qrcode
                 Intent intent = new Intent(getApplicationContext(), ScanCardActivity.class);

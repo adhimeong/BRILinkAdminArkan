@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BRILinkAdminArkan</string>
+    <string name="app_name">Admin BRILink</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -7,11 +7,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="jenis_transaksi">
+        <item>JENIS TRANSAKSI</item>
         <item>STOR TUNAI</item>
         <item>TARIK TUNAI</item>
         <item>TRANSFER</item>
     </string-array>
     <string-array name="bank">
+        <item>BANK TUJUAN</item>
         <item>BRI</item>
         <item>BNI</item>
         <item>MANDIRI</item>

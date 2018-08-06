@@ -25,47 +25,9 @@
                 android:hint="Nomor Kartu"
                 android:inputType="text"
                 android:textColor="@color/colorAccent"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="JENIS TRANSAKSI   : "/>
-
-                <Spinner
-                    android:id="@+id/spinnertransasijenistransaksi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/jenis_transaksi"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="30dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BANK TUJUAN        : "/>
-
-                <Spinner
-                    android:id="@+id/spinnertransasibank"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/bank"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
 
             <EditText
                 android:id="@+id/edittransaksitujuan"
@@ -86,9 +48,70 @@
                 android:inputType="number"
                 android:textColor="@color/colorAccent"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp">
+
+                <Spinner
+                    android:id="@+id/spinnertransasijenistransaksi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/jenis_transaksi"
+                    android:layout_weight="1"/>
+
+                <Spinner
+                    android:id="@+id/spinnertransasibank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/bank"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BIAYA ADMINISTRASI"
+                android:textColor="@color/colorAccent"
+                android:textSize="12dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/txttarif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="---"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="27dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edittransaksitarif"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Manual"
+                    android:textSize="18dp"
+                    android:inputType="number"
+                    android:textColor="@color/colorAccent"/>
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btntransaksiscan"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

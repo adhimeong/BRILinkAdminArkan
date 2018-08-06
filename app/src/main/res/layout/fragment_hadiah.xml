@@ -21,14 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:icon="@drawable/ic_rotate_90_degrees_ccw_black_24dp"
-            android:text="Lepas Hadiah" />
+            android:text="LEPAS HADIAH" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/tab_tambahhadiah"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:icon="@drawable/ic_storage_black_24dp"
-            android:text="List Hadiah" />
+            android:text="LIST HADIAH" />
 
     </android.support.design.widget.TabLayout>
 

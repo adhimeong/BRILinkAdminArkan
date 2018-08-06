@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -33,7 +34,8 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".EditHadiahActivity"></activity>
+        <activity android:name=".EditHadiahActivity" />
+        <activity android:name=".PrintActivity"></activity>
     </application>
 
 </manifest>
