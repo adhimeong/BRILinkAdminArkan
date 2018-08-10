@@ -44,8 +44,8 @@ public class TransaksiFragment extends Fragment {
     String urldata1 = "app/cektarif.php";
     String url1 = Server.url_server +urldata1;
 
-    EditText nokartu, notujuan, nominaltransaksi;
-    String no_kartu,rektujuan,nominal,transaksi,bank,message,tariftransaksi;
+    EditText nokartu, notujuan, nominaltransaksi, edittarif;
+    String no_kartu,rektujuan,nominal,transaksi,bank,message,tariftransaksi, cek;
     Spinner banktujuan, jenistransaksi;
     Button btnproses, btnscan;
     TextView txttarif;
@@ -69,6 +69,7 @@ public class TransaksiFragment extends Fragment {
         btnproses =(Button) view.findViewById(R.id.btntransasiproses);
         btnscan = (Button) view.findViewById(R.id.btntransaksiscan);
         txttarif = (TextView)view.findViewById(R.id.txttarif);
+        edittarif = (EditText) view.findViewById(R.id.edittransaksitarif);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");
@@ -111,15 +112,22 @@ public class TransaksiFragment extends Fragment {
                 rektujuan = notujuan.getText().toString();
                 nominal = nominaltransaksi.getText().toString();
                 bank = banktujuan.getSelectedItem().toString();
-                if(nominaltransaksi != null){
-                    tariftransaksi = nominaltransaksi.getText().toString();
-                }else{
+                cek = edittarif.getText().toString();
+
+                if (cek.matches("")){
                     tariftransaksi = txttarif.getText().toString();
+                }else{
+                    tariftransaksi = edittarif.getText().toString();
                 }
 
                 load_proses_transaksi_to_server();
 
                 Intent i = new Intent(getActivity(), PrintActivity.class);
+                i.putExtra("nokartu", no_kartu);
+                i.putExtra("rektujuan", rektujuan);
+                i.putExtra("nominal", nominal);
+                i.putExtra("bank", bank);
+                i.putExtra("tarif", tariftransaksi);
                 startActivity(i);
             }
         });

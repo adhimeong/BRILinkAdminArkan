@@ -36,10 +36,27 @@ public class PrintActivity extends Activity implements Runnable{
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
 
+    String nokartu, rektujuan, nominal, bank, tarif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print);
+
+
+        //ambil data dari fragment
+        nokartu = getIntent().getStringExtra("nokartu");
+        rektujuan = getIntent().getStringExtra("rektujuan");
+        nominal = getIntent().getStringExtra("nominal");
+        bank = getIntent().getStringExtra("bank");
+        tarif = getIntent().getStringExtra("tarif");
+        int a = Integer.parseInt(nominal);
+        int b = Integer.parseInt(tarif);
+        int total = a + b;
+        final String totalbayar = String.valueOf(total);
+        Log.d("a", String.valueOf(a));
+        Log.d("b", String.valueOf(b));
+        Log.d("total", String.valueOf(total));
 
         mScan = (Button) findViewById(R.id.Scan);
         mScan.setOnClickListener(new View.OnClickListener() {
@@ -89,20 +106,20 @@ public class PrintActivity extends Activity implements Runnable{
                             BILL = BILL + "PUKUL : " + "22:41:10" + "\n";
                             BILL = BILL
                                     + "--------------------------------";
-                            BILL = BILL + "\n" + "BANK  : " + "BRI";
-                            BILL = BILL + "\n" + "NO REKENING : " + "445301000999537";
+                            BILL = BILL + "\n" + "BANK  : " + bank ;
+                            BILL = BILL + "\n" + "NO REKENING : " + rektujuan;
                             BILL = BILL + "\n" + "NAMA PENERIMA : " + "SARI PUSPITA";
-                            BILL = BILL + "\n" + "NOMINAL : " + "Rp.500.000";
+                            BILL = BILL + "\n" + "NOMINAL : " + nominal;
 
                             BILL = BILL
                                     + "\n--------------------------------";
                             BILL = BILL + "\n\n";
 
                             BILL = BILL + "BIAYA ADMINISTRASI :" + "\n";
-                            BILL = BILL + "20.000" + "\n";
+                            BILL = BILL + tarif + "\n";
 
                             BILL = BILL + "TOTAL PEMBAYARAN :" + "\n";
-                            BILL = BILL + "520.000" + "\n";
+                            BILL = BILL + totalbayar + "\n";
 
                             BILL = BILL
                                     + "================================\n";
