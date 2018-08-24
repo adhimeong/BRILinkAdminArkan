@@ -64,8 +64,8 @@ public class DataHadiahAdapter extends ArrayAdapter<DataHadiahController> implem
             viewHolder.idhadiah = (TextView) convertView.findViewById(R.id.listidhadiah);
             viewHolder.namahadiah = (TextView) convertView.findViewById(R.id.listnamahadiah);
             viewHolder.fotohadiah = (NetworkImageView) convertView.findViewById(R.id.listfotohadiah);
-            viewHolder.jumlahpoint = (TextView) convertView.findViewById(R.id.listjumlah_point);
-            viewHolder.jumlahitems = (TextView) convertView.findViewById(R.id.listjumlah_hadiah);
+            viewHolder.jumlahpoint = (TextView) convertView.findViewById(R.id.listtransjenistrans);
+            viewHolder.jumlahitems = (TextView) convertView.findViewById(R.id.listtransbank);
 
             result = convertView;
 

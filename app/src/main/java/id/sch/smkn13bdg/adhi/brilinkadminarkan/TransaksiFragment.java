@@ -114,6 +114,7 @@ public class TransaksiFragment extends Fragment {
                 nominal = nominaltransaksi.getText().toString();
                 bank = banktujuan.getSelectedItem().toString();
                 cek = edittarif.getText().toString();
+                transaksi = jenistransaksi.getSelectedItem().toString();
 
                 if (cek.matches("")){
                     tariftransaksi = txttarif.getText().toString();
@@ -196,6 +197,7 @@ public class TransaksiFragment extends Fragment {
                 params.put("rektujuan", rektujuan);
                 params.put("nominal", nominal);
                 params.put("bank", bank);
+                params.put("jenis_transaksi", transaksi);
                 params.put("tariftransasi", tariftransaksi);
                 return params;
             }
