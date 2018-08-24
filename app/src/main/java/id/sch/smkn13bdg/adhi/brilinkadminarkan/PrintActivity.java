@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +17,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,9 +55,14 @@ public class PrintActivity extends Activity implements Runnable{
         int b = Integer.parseInt(tarif);
         int total = a + b;
         final String totalbayar = String.valueOf(total);
-        Log.d("a", String.valueOf(a));
-        Log.d("b", String.valueOf(b));
-        Log.d("total", String.valueOf(total));
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+        final String waktu = mdformat.format(calendar.getTime());
+
+        Calendar calendar1 = Calendar.getInstance();
+        SimpleDateFormat mdformat02 = new SimpleDateFormat("dd-MM-yyyy");
+        final String tanggal = mdformat02.format(calendar1.getTime());
 
         mScan = (Button) findViewById(R.id.Scan);
         mScan.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +108,8 @@ public class PrintActivity extends Activity implements Runnable{
 
                             BILL = BILL + "BUKTI TRANSAKSI";
                             BILL = BILL + "\n";
-                            BILL = BILL + "TANGGAL : " + "6-10-2018" + "\n";
-                            BILL = BILL + "PUKUL : " + "22:41:10" + "\n";
+                            BILL = BILL + "TANGGAL : " + tanggal + "\n";
+                            BILL = BILL + "PUKUL : " + waktu + "\n";
                             BILL = BILL
                                     + "--------------------------------";
                             BILL = BILL + "\n" + "BANK  : " + bank ;

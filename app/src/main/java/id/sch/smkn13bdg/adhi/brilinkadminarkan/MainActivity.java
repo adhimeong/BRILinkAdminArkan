@@ -14,11 +14,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_antrian:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new AntrianFragment()).commit();
-                    return true;
+
                 case R.id.navigation_transaksi:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ListTransaksiFragment()).commit();
                     return true;
                 case R.id.navigation_hadiah:
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HadiahFragment()).commit();
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new ListTransaksiFragment()).commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

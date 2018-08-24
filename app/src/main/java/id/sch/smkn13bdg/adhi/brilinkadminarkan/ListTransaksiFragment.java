@@ -9,14 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.PagerAdapter;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.Pager2Adapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HadiahFragment extends Fragment {
+public class ListTransaksiFragment extends Fragment {
 
-    public HadiahFragment() {
+    public ListTransaksiFragment() {
         // Required empty public constructor
     }
 
@@ -24,16 +24,16 @@ public class HadiahFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_hadiah, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_transaksi, container, false);
         //Toolbar toolbar = view.findViewById(R.id.toolbar); //Inisialisasi dan Implementasi id Toolbar
         //setSupportActionBar(toolbar); // Memasang Toolbar pada Aplikasi
 
         //Menerapkan TabLayout dan ViewPager pada Activity
-        final TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        final ViewPager viewPager = view.findViewById(R.id.pager);
+        final TabLayout tabLayout = view.findViewById(R.id.tab_layout2);
+        final ViewPager viewPager = view.findViewById(R.id.pager2);
 
         //Memanggil dan Memasukan Value pada Class PagerAdapter(FragmentManager dan JumlahTab)
-        PagerAdapter pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        Pager2Adapter pagerAdapter = new Pager2Adapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
 
         //Memasang Adapter pada ViewPager
         viewPager.setAdapter(pagerAdapter);

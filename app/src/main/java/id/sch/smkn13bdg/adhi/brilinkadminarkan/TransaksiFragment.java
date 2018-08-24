@@ -34,6 +34,7 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class TransaksiFragment extends Fragment {
 
     private ProgressDialog pd;
@@ -163,7 +164,7 @@ public class TransaksiFragment extends Fragment {
 
                             // Cek error node pada json
                             if (success == 1) {
-                                Log.d("Add/update", jObj.toString());
+                                Log.d("Add/update transaksi", jObj.toString());
                                 FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
                             } else {
                                 FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
@@ -203,7 +204,6 @@ public class TransaksiFragment extends Fragment {
 
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
-
 
     public void load_tarif_to_server(){
         pd.show();
