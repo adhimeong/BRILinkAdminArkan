@@ -6,6 +6,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah.HadiahFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan.LaporanFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.ListTransaksiFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

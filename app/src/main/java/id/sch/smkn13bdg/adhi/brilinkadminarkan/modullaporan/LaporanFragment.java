@@ -1,4 +1,4 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan;
 
 
 import android.os.Bundle;
@@ -9,31 +9,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.PagerAdapter;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.Pager2Adapter;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.Pager3Adapter;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HadiahFragment extends Fragment {
+public class LaporanFragment extends Fragment {
 
-    public HadiahFragment() {
+
+    public LaporanFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_hadiah, container, false);
+        View view = inflater.inflate(R.layout.fragment_laporan, container, false);
         //Toolbar toolbar = view.findViewById(R.id.toolbar); //Inisialisasi dan Implementasi id Toolbar
         //setSupportActionBar(toolbar); // Memasang Toolbar pada Aplikasi
 
         //Menerapkan TabLayout dan ViewPager pada Activity
-        final TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-        final ViewPager viewPager = view.findViewById(R.id.pager);
+        final TabLayout tabLayout = view.findViewById(R.id.tab_layout3);
+        final ViewPager viewPager = view.findViewById(R.id.pager3);
 
         //Memanggil dan Memasukan Value pada Class PagerAdapter(FragmentManager dan JumlahTab)
-        PagerAdapter pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        Pager3Adapter pagerAdapter = new Pager3Adapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
 
         //Memasang Adapter pada ViewPager
         viewPager.setAdapter(pagerAdapter);
@@ -62,7 +66,7 @@ public class HadiahFragment extends Fragment {
                 //Dipanggil ketika tab yang sudah dipilih, dipilih lagi oleh user.
             }
         });
-
+        // Inflate the layout for this fragment
         return view;
     }
 

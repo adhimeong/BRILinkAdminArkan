@@ -32,13 +32,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScanCardActivity" />
-        <activity android:name=".DetailHadiahActivity" />
+        <activity android:name=".modulhadiah.DetailHadiahActivity" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".EditHadiahActivity" />
+        <activity android:name=".modulhadiah.EditHadiahActivity" />
         <activity android:name=".PrintActivity" />
         <activity android:name=".DeviceListActivity"></activity>
     </application>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.ListTransaksiFragment">
+    tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.ListTransaksiFragment">
 
     <!-- Menerapkan TabLayout dan ViewPager -->
 
@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#813502"
-        app:tabTextColor="#FFFFFF">
+        app:tabSelectedTextColor="#FFFFFF"
+        app:tabTextColor="#813502"
+        app:tabIndicatorColor="#fcb101">
 
         <android.support.design.widget.TabItem
             android:id="@+id/tab_Transaksi_antrian"

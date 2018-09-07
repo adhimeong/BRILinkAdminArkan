@@ -1,4 +1,4 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.PrintActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
@@ -46,7 +48,7 @@ public class TransaksiFragment extends Fragment {
     String url1 = Server.url_server +urldata1;
 
     EditText nokartu, notujuan, nominaltransaksi, edittarif;
-    String no_kartu,rektujuan,nominal,transaksi,bank,message,tariftransaksi, cek;
+    String no_kartu,rektujuan,nominal,transaksi,bank,message,tariftransaksi, cek, statustransaksi;
     Spinner banktujuan, jenistransaksi;
     Button btnproses, btnscan;
     TextView txttarif;
@@ -115,6 +117,7 @@ public class TransaksiFragment extends Fragment {
                 bank = banktujuan.getSelectedItem().toString();
                 cek = edittarif.getText().toString();
                 transaksi = jenistransaksi.getSelectedItem().toString();
+                statustransaksi = "selesai";
 
                 if (cek.matches("")){
                     tariftransaksi = txttarif.getText().toString();
@@ -199,12 +202,14 @@ public class TransaksiFragment extends Fragment {
                 params.put("bank", bank);
                 params.put("jenis_transaksi", transaksi);
                 params.put("tariftransasi", tariftransaksi);
+                params.put("status_transaksi", statustransaksi);
                 return params;
             }
 
         };
 
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 
     public void load_tarif_to_server(){

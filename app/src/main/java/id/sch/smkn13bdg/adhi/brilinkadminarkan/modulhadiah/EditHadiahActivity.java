@@ -1,4 +1,4 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.MainActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 

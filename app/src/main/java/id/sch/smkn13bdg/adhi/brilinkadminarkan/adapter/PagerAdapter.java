@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.BagiHadiahFragment;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.TambahHadiahFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah.BagiHadiahFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah.TambahHadiahFragment;
 
 /**
  * Created by adhi on 08/06/18.

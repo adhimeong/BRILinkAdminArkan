@@ -81,7 +81,7 @@ public class DataHadiahAdapter extends ArrayAdapter<DataHadiahController> implem
         viewHolder.idhadiah.setText(String.valueOf(data.getId_hadiah()));
         viewHolder.namahadiah.setText(String.valueOf(data.getNama_hadiah()));
         viewHolder.jumlahpoint.setText(String.valueOf(data.getJumlah_point()));
-        viewHolder.jumlahitems.setText(String.valueOf(data.getJumlah_items() + " point"));
+        viewHolder.jumlahitems.setText(String.valueOf(data.getJumlah_items() + " item"));
 
         mImageLoader = MySingleton.getInstance(getContext()).getImageLoader();
         IMAGE_URL = url + String.valueOf(data.getFoto_hadiah());

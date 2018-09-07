@@ -1,9 +1,8 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi;
 
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,26 +27,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataTransaksiAdapter;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataHadiahController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTransaksiController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AntrianTransaksiFragment extends Fragment {
+public class BerhasilTransaksiFragment extends Fragment {
 
     private ProgressDialog pd;
     int success;
     String message;
 
     //volley
-    String urldata = "app/transaksiantrian.php";
+    String urldata = "app/transaksi_berhasil.php";
     String url = Server.url_server +urldata;
 
     String urldata1 = "app/prosesupdatetransaksi.php";
@@ -59,7 +58,7 @@ public class AntrianTransaksiFragment extends Fragment {
     ListView listView;
 
 
-    public AntrianTransaksiFragment() {
+    public BerhasilTransaksiFragment() {
         // Required empty public constructor
     }
 
@@ -67,22 +66,13 @@ public class AntrianTransaksiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_antrian, container, false);
+        View view = inflater.inflate(R.layout.fragment_berhasil_transaksi, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");
 
         //list transaksi
         listView = (ListView)view.findViewById(R.id.listview01);
-
-        FloatingActionButton fab = view.findViewById(R.id.fabtransaksi);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
-            }
-        });
-
         dataController.clear();
 
         adapter = new DataTransaksiAdapter(dataController, getActivity() );
@@ -93,6 +83,7 @@ public class AntrianTransaksiFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     final int position, long id) {
                 final String dataidtransaksi = dataController.get(position).getId_tansaksi();
+                final String datanokartu = dataController.get(position).getNo_kartu();
                 Toast.makeText(getActivity(), "id transaksi : " + dataidtransaksi, Toast.LENGTH_SHORT).show();
 
                 //pengumaman
@@ -112,14 +103,14 @@ public class AntrianTransaksiFragment extends Fragment {
                                     }
                                 })
                         .addButton(
-                                "BERHASIL",     // button text
+                                "ANTRIAN",     // button text
                                 R.color.pdlg_color_white,  // button text color
-                                R.color.hijau,  // button background color
+                                R.color.abu,  // button background color
                                 new PrettyDialogCallback() {  // button OnClick listener
                                     @Override
                                     public void onClick() {
-                                        String datastatustransaksi = "selesai";
-                                        load_proses_update_transaksi_to_server(dataidtransaksi,datastatustransaksi);
+                                        String datastatustransaksi = "antri";
+                                        load_proses_update_transaksi_to_server(dataidtransaksi, datanokartu, datastatustransaksi);
 
                                         pDialog.dismiss();
                                     }
@@ -134,7 +125,7 @@ public class AntrianTransaksiFragment extends Fragment {
                                     public void onClick() {
 
                                         String datastatustransaksi = "gagal";
-                                        load_proses_update_transaksi_to_server(dataidtransaksi,datastatustransaksi);
+                                        load_proses_update_transaksi_to_server(dataidtransaksi,datanokartu,datastatustransaksi);
 
                                         pDialog.dismiss();
                                     }
@@ -149,7 +140,7 @@ public class AntrianTransaksiFragment extends Fragment {
                                     public void onClick() {
 
                                         String datastatustransaksi = "batal";
-                                        load_proses_update_transaksi_to_server(dataidtransaksi,datastatustransaksi);
+                                        load_proses_update_transaksi_to_server(dataidtransaksi,datanokartu,datastatustransaksi);
 
                                         pDialog.dismiss();
                                     }
@@ -237,7 +228,7 @@ public class AntrianTransaksiFragment extends Fragment {
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public void load_proses_update_transaksi_to_server(final String idtransaksi, final String status){
+    public void load_proses_update_transaksi_to_server(final String idtransaksi, final String nokartu, final String status){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -287,6 +278,7 @@ public class AntrianTransaksiFragment extends Fragment {
             {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id_transaksi", idtransaksi);
+                params.put("no_kartu", nokartu);
                 params.put("status_transaksi", status);
                 return params;
             }

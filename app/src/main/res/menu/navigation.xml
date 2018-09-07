@@ -4,16 +4,16 @@
     <item
         android:id="@+id/navigation_transaksi"
         android:icon="@drawable/ic_attach_money_black_24dp"
-        android:title="Transaksi" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_hadiah"
         android:icon="@drawable/ic_cake_black_24dp"
-        android:title="Hadiah" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_laporan"
         android:icon="@drawable/ic_insert_chart_black_24dp"
-        android:title="Laporan" />
+        android:title="" />
 
 </menu>

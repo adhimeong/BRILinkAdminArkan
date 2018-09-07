@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan.LaporanMingguanFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan.LaporanHarianFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan.LaporanTahunFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.AntrianTransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.BatalTransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.BerhasilTransaksiFragment;
@@ -13,11 +16,11 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.GagalTransaksiFrag
  * Created by adhi on 24/08/18.
  */
 
-public class Pager2Adapter extends FragmentStatePagerAdapter {
+public class Pager3Adapter extends FragmentStatePagerAdapter {
 
     private int number_tabs;
 
-    public Pager2Adapter(FragmentManager fm, int number_tabs) {
+    public Pager3Adapter(FragmentManager fm, int number_tabs) {
         super(fm);
         this.number_tabs = number_tabs;
     }
@@ -27,13 +30,11 @@ public class Pager2Adapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new AntrianTransaksiFragment();
+                return new LaporanHarianFragment();
             case 1:
-                return new GagalTransaksiFragment();
+                return new LaporanMingguanFragment();
             case 2:
-                return new BatalTransaksiFragment();
-            case 3:
-                return new BerhasilTransaksiFragment();
+                return new LaporanTahunFragment();
             default:
                 return null;
         }

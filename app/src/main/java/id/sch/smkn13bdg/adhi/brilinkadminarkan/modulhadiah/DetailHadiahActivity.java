@@ -1,4 +1,4 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -28,6 +28,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.MainActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanCardActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
@@ -52,7 +55,7 @@ public class DetailHadiahActivity extends AppCompatActivity{
     String urldata4 = "app/perosesambilhadiah.php";
     String url4 = Server.url_server +urldata4;
 
-    String message, idhadiah, id_kartu, stringpointnasabahakhir, stringjmlhitemsakhir ;
+    String message, idhadiah, id_kartu, stringjmlhitemsakhir ;
 
     TextView txtnamahadiah, txtpointhadiah, txtitemshadiah, result, txtpointnasabah;
     Button btnscan, btnproses;
@@ -91,7 +94,7 @@ public class DetailHadiahActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 //ujicoba non kamera
-                //result.setText("1805001");
+                //result.setText("K2047345");
                 //id_kartu = result.getText().toString();
                 //load_pointnasabah_from_server();
 
@@ -114,12 +117,11 @@ public class DetailHadiahActivity extends AppCompatActivity{
                 int jmlhitms = Integer.parseInt(stringjmlitms);
 
                 if ( pointnasabah >= pointhadiah){
-                    int pointnasabahakhir = pointnasabah - pointhadiah;
                     int jmlhitms2 = jmlhitms - 1;
 
-                    stringpointnasabahakhir = String.valueOf(pointnasabahakhir);
                     stringjmlhitemsakhir = String.valueOf(jmlhitms2);
-                    load_proses_to_server();
+                    final String pointtxt = txtpointhadiah.getText().toString();
+                    load_proses_to_server(pointtxt);
 
                 }else{
                     FancyToast.makeText(getApplicationContext(),"POINT PELANGGAN KURANG",FancyToast.LENGTH_SHORT, FancyToast.ERROR,true).show();
@@ -273,7 +275,7 @@ public class DetailHadiahActivity extends AppCompatActivity{
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public void load_proses_to_server(){
+    public void load_proses_to_server(final String point){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -323,7 +325,7 @@ public class DetailHadiahActivity extends AppCompatActivity{
             {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("no_kartu", id_kartu);
-                params.put("point", stringpointnasabahakhir);
+                params.put("point", point);
                 params.put("id_hadiah", idhadiah);
                 params.put("jumlahitems", stringjmlhitemsakhir);
                 return params;

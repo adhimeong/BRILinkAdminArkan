@@ -1,4 +1,4 @@
-package id.sch.smkn13bdg.adhi.brilinkadminarkan;
+package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah;
 
 
 import android.app.ProgressDialog;
@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataHadiahController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
