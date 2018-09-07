@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.MainActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanCardActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;

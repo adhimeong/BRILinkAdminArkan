@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="Point" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="Pengguna" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_cake_black_24dp"
+            android:title="Hadiah Langsung" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Penguman" />
+    </group>
+
+    <item android:title="Pengaturan">
+        <menu>
+            <item
+                android:id="@+id/nav_share1"
+                android:icon="@drawable/ic_monetization_on_black_24dp"
+                android:title="Tarif" />
+
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_account_balance_black_24dp"
+                android:title="Kode Bank" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="Banner" />
+        </menu>
+    </item>
+
+</menu>
