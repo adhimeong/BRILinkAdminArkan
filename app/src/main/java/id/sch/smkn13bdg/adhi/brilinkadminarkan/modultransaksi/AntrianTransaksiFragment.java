@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ import libs.mjn.prettydialog.PrettyDialogCallback;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AntrianTransaksiFragment extends Fragment {
+public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ProgressDialog pd;
     int success;
@@ -56,6 +57,8 @@ public class AntrianTransaksiFragment extends Fragment {
     List<DataTransaksiController> dataController = new ArrayList<DataTransaksiController>();
     DataTransaksiAdapter adapter;
     ListView listView;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public AntrianTransaksiFragment() {
@@ -88,6 +91,7 @@ public class AntrianTransaksiFragment extends Fragment {
 
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     final int position, long id) {
@@ -170,7 +174,24 @@ public class AntrianTransaksiFragment extends Fragment {
             }
         });
 
-        load_data_from_server();
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // Fetching data from server
+                load_data_from_server();
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -219,6 +240,7 @@ public class AntrianTransaksiFragment extends Fragment {
                         adapter.notifyDataSetChanged();
 
                         pd.hide();
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 },
                 new Response.ErrorListener() {
@@ -297,4 +319,14 @@ public class AntrianTransaksiFragment extends Fragment {
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void onRefresh() {
+        dataController.clear();
+        load_data_from_server();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

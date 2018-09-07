@@ -25,9 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import faranjit.currency.edittext.CurrencyEditText;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.PrintActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
@@ -47,7 +49,7 @@ public class TransaksiFragment extends Fragment {
     String urldata1 = "app/cektarif.php";
     String url1 = Server.url_server +urldata1;
 
-    EditText nokartu, notujuan, nominaltransaksi, edittarif;
+    EditText nokartu, notujuan, edittarif;
     String no_kartu,rektujuan,nominal,transaksi,bank,message,tariftransaksi, cek, statustransaksi;
     Spinner banktujuan, jenistransaksi;
     Button btnproses, btnscan;
@@ -68,11 +70,11 @@ public class TransaksiFragment extends Fragment {
         jenistransaksi = (Spinner) view.findViewById(R.id.spinnertransasijenistransaksi);
         nokartu = (EditText) view.findViewById(R.id.edittransaksinokartu);
         notujuan = (EditText)view.findViewById(R.id.edittransaksitujuan);
-        nominaltransaksi = (EditText) view.findViewById(R.id.edittransaksinominal);
         btnproses =(Button) view.findViewById(R.id.btntransasiproses);
         btnscan = (Button) view.findViewById(R.id.btntransaksiscan);
         txttarif = (TextView)view.findViewById(R.id.txttarif);
         edittarif = (EditText) view.findViewById(R.id.edittransaksitarif);
+        final CurrencyEditText nominaltransaksi = (CurrencyEditText) view.findViewById(R.id.edittransaksinominal);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");
@@ -93,11 +95,19 @@ public class TransaksiFragment extends Fragment {
         banktujuan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                nominal = nominaltransaksi.getText().toString();
+
                 bank = banktujuan.getSelectedItem().toString();
                 if (bank.equals("BANK TUJUAN")){
                     Toast.makeText(getActivity(), "PILIH BANK TUJUAN", Toast.LENGTH_SHORT).show();
                 }else{
+                    try {
+                        double dd = nominaltransaksi.getCurrencyDouble();
+                        int id = (int) dd;
+                        nominal = String.valueOf(id);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     load_tarif_to_server();
                 }
             }
@@ -113,11 +123,19 @@ public class TransaksiFragment extends Fragment {
             public void onClick(View view) {
                 no_kartu = nokartu.getText().toString();
                 rektujuan = notujuan.getText().toString();
-                nominal = nominaltransaksi.getText().toString();
                 bank = banktujuan.getSelectedItem().toString();
                 cek = edittarif.getText().toString();
                 transaksi = jenistransaksi.getSelectedItem().toString();
                 statustransaksi = "selesai";
+
+                try {
+                    double d = nominaltransaksi.getCurrencyDouble();
+                    int i = (int) d;
+                    nominal = String.valueOf(i);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
                 if (cek.matches("")){
                     tariftransaksi = txttarif.getText().toString();
@@ -125,7 +143,7 @@ public class TransaksiFragment extends Fragment {
                     tariftransaksi = edittarif.getText().toString();
                 }
 
-                load_proses_transaksi_to_server();
+                load_proses_transaksi_to_server(no_kartu, rektujuan, nominal, bank, transaksi, tariftransaksi, statustransaksi);
 
                 Intent i = new Intent(getActivity(), PrintActivity.class);
                 i.putExtra("nokartu", no_kartu);
@@ -149,7 +167,7 @@ public class TransaksiFragment extends Fragment {
 
     }
 
-    public void load_proses_transaksi_to_server(){
+    public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -196,13 +214,13 @@ public class TransaksiFragment extends Fragment {
             protected Map<String, String> getParams()
             {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("no_kartu", no_kartu);
-                params.put("rektujuan", rektujuan);
-                params.put("nominal", nominal);
-                params.put("bank", bank);
-                params.put("jenis_transaksi", transaksi);
-                params.put("tariftransasi", tariftransaksi);
-                params.put("status_transaksi", statustransaksi);
+                params.put("no_kartu", a);
+                params.put("rektujuan", b);
+                params.put("nominal", c);
+                params.put("bank", d);
+                params.put("jenis_transaksi", e);
+                params.put("tariftransaksi", f);
+                params.put("status_transaksi", g);
                 return params;
             }
 

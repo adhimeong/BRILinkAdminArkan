@@ -4,6 +4,7 @@ package id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ import libs.mjn.prettydialog.PrettyDialogCallback;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BerhasilTransaksiFragment extends Fragment {
+public class BerhasilTransaksiFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ProgressDialog pd;
     int success;
@@ -56,6 +57,8 @@ public class BerhasilTransaksiFragment extends Fragment {
     List<DataTransaksiController> dataController = new ArrayList<DataTransaksiController>();
     DataTransaksiAdapter adapter;
     ListView listView;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public BerhasilTransaksiFragment() {
@@ -161,7 +164,24 @@ public class BerhasilTransaksiFragment extends Fragment {
             }
         });
 
-        load_data_from_server();
+        // SwipeRefreshLayout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                // Fetching data from server
+                load_data_from_server();
+
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -210,6 +230,7 @@ public class BerhasilTransaksiFragment extends Fragment {
                         adapter.notifyDataSetChanged();
 
                         pd.hide();
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 },
                 new Response.ErrorListener() {
@@ -288,4 +309,14 @@ public class BerhasilTransaksiFragment extends Fragment {
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void onRefresh() {
+        dataController.clear();
+        load_data_from_server();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }
