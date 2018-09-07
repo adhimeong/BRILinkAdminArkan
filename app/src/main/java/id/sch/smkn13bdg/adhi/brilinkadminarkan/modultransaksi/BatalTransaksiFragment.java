@@ -174,7 +174,6 @@ public class BatalTransaksiFragment extends Fragment implements SwipeRefreshLayo
     }
 
     public void load_data_from_server() {
-        pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
@@ -215,7 +214,6 @@ public class BatalTransaksiFragment extends Fragment implements SwipeRefreshLayo
 
                         adapter.notifyDataSetChanged();
 
-                        pd.hide();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 },
@@ -225,7 +223,6 @@ public class BatalTransaksiFragment extends Fragment implements SwipeRefreshLayo
                         if(error != null){
 
                             FancyToast.makeText(getActivity().getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
-                            pd.hide();
                         }
                     }
                 }

@@ -198,7 +198,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
     }
 
     public void load_data_from_server() {
-        pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
@@ -238,8 +237,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                         }
 
                         adapter.notifyDataSetChanged();
-
-                        pd.hide();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 },
@@ -249,7 +246,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                         if(error != null){
 
                             FancyToast.makeText(getActivity().getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
-                            pd.hide();
                         }
                     }
                 }
