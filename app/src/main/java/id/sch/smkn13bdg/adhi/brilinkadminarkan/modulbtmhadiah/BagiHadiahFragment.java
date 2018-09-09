@@ -77,7 +77,7 @@ public class BagiHadiahFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bagi_hadiah, container, false);
+        View view = inflater.inflate(R.layout.fragment_hadiah_bagi, container, false);
 
         //permisi kamera
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

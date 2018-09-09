@@ -25,7 +25,7 @@ public class ListTransaksiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_list_transaksi, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaksi_list, container, false);
         //Toolbar toolbar = view.findViewById(R.id.toolbar); //Inisialisasi dan Implementasi id Toolbar
         //setSupportActionBar(toolbar); // Memasang Toolbar pada Aplikasi
 

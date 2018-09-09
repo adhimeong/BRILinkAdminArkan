@@ -72,7 +72,7 @@ public class BatalTransaksiFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_batal_transaksi, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaksi_batal, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");

@@ -71,7 +71,7 @@ public class GagalTransaksiFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_gagal_transaksi, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaksi_gagal, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");

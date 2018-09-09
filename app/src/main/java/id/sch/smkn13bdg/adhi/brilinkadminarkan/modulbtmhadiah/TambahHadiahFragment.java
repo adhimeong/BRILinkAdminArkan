@@ -60,7 +60,7 @@ public class TambahHadiahFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tambah_hadiah, container, false);
+        View view = inflater.inflate(R.layout.fragment_hadiah_tambah, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");

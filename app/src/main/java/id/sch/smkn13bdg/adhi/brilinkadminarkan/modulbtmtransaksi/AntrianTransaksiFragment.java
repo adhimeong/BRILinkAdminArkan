@@ -71,7 +71,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_antrian_transaksi, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaksi_antrian, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");

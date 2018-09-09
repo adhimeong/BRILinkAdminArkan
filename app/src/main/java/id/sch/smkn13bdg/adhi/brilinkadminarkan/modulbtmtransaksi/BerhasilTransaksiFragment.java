@@ -72,7 +72,7 @@ public class BerhasilTransaksiFragment extends Fragment implements SwipeRefreshL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_berhasil_transaksi, container, false);
+        View view = inflater.inflate(R.layout.fragment_transaksi_berhasil, container, false);
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");
