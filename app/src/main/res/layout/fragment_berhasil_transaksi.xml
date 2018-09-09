@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingRight="10dp"
     android:paddingLeft="10dp"
-    tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.BerhasilTransaksiFragment">
+    tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.BerhasilTransaksiFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

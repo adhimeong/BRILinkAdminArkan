@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/listtransjenistrans"
+                android:id="@+id/listpointadmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/listidhadiah"
@@ -61,11 +61,11 @@
                 android:layout_marginStart="28dp" />
 
             <TextView
-                android:id="@+id/listtransbank"
+                android:id="@+id/listpointwaktu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/listfotohadiah"
-                android:layout_alignStart="@+id/listtransjenistrans"
+                android:layout_alignStart="@+id/listpointadmin"
                 android:text="0"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp"

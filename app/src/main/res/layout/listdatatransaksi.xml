@@ -23,26 +23,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/listtransbank"
+                android:layout_alignStart="@+id/listpointwaktu"
                 android:text="nokartu"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/listtransjenistrans"
+                android:id="@+id/listpointadmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/listtranskid"
+                android:layout_alignBottom="@+id/listpointid"
                 android:layout_marginStart="68dp"
-                android:layout_toEndOf="@+id/listtranskid"
+                android:layout_toEndOf="@+id/listpointid"
                 android:text="jenis"
                 android:textColor="@color/place_autocomplete_prediction_secondary_text"
                 android:textSize="12sp"
                 />
 
             <TextView
-                android:id="@+id/listtransbank"
+                android:id="@+id/listpointwaktu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -55,7 +55,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/listtranskid"
+                android:id="@+id/listpointid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/listtransnokartu"
@@ -65,12 +65,12 @@
                 android:visibility="invisible" />
 
             <TextView
-                android:id="@+id/listtransrek"
+                android:id="@+id/listpointtanggal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/listtransbank"
+                android:layout_alignTop="@+id/listpointwaktu"
                 android:layout_marginStart="9dp"
-                android:layout_toEndOf="@+id/listtransbank"
+                android:layout_toEndOf="@+id/listpointwaktu"
                 android:text="rek"
                 android:textColor="@color/place_autocomplete_prediction_secondary_text"
                 android:textSize="12sp"
@@ -80,8 +80,8 @@
                 android:id="@+id/listtransnominal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/listtransjenistrans"
-                android:layout_alignTop="@+id/listtransrek"
+                android:layout_alignStart="@+id/listpointadmin"
+                android:layout_alignTop="@+id/listpointtanggal"
                 android:text="0"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"

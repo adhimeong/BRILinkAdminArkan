@@ -12,9 +12,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulhadiah.HadiahFragment;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.modullaporan.LaporanFragment;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.modultransaksi.ListTransaksiFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmhadiah.HadiahFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmlaporan.LaporanFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavbank.BankFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavbanner.BannerFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpemenang.PemenangFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengguna.PenggunaFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengumuman.PengumumanFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpoint.PointFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.ListTransaksiFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavtarif.TarifFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -102,18 +109,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_point) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new PointFragment()).commit();
+        } else if (id == R.id.nav_pengguna) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new PenggunaFragment()).commit();
+        } else if (id == R.id.nav_hadiah) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new PemenangFragment()).commit();
+        } else if (id == R.id.nav_pengumuman) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new PengumumanFragment()).commit();
+        } else if (id == R.id.nav_tarif) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TarifFragment()).commit();
+        } else if (id == R.id.nav_bank) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new BankFragment()).commit();
+        }else if (id == R.id.nav_banner) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new BannerFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

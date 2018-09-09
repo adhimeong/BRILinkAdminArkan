@@ -52,12 +52,12 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.listdatatransaksi, parent, false);
 
-            viewHolder.idtransaksi = (TextView) convertView.findViewById(R.id.listtranskid);
+            viewHolder.idtransaksi = (TextView) convertView.findViewById(R.id.listpointid);
             viewHolder.nokartu = (TextView) convertView.findViewById(R.id.listtransnokartu);
             viewHolder.nominal = (TextView) convertView.findViewById(R.id.listtransnominal);
-            viewHolder.rektujuan = (TextView) convertView.findViewById(R.id.listtransrek);
-            viewHolder.bank = (TextView) convertView.findViewById(R.id.listtransbank);
-            viewHolder.jenis = (TextView) convertView.findViewById(R.id.listtransjenistrans);
+            viewHolder.rektujuan = (TextView) convertView.findViewById(R.id.listpointtanggal);
+            viewHolder.bank = (TextView) convertView.findViewById(R.id.listpointwaktu);
+            viewHolder.jenis = (TextView) convertView.findViewById(R.id.listpointadmin);
 
             result = convertView;
 
