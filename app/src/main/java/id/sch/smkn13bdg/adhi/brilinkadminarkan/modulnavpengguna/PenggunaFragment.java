@@ -1,6 +1,5 @@
 package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengguna;
 
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -53,6 +52,9 @@ public class PenggunaFragment extends Fragment {
 
     String urldata = "app/perolehansemuapoint.php";
     String url = Server.url_server +urldata;
+
+    String urldata2 = "app/pelangganaktif.php";
+    String url2 = Server.url_server +urldata2;
     private ProgressDialog pd;
 
     //list costume adapter
@@ -61,6 +63,7 @@ public class PenggunaFragment extends Fragment {
 
     ListView listView;
     EditText result;
+    TextView penggunajumlah;
     Button scanbtn;
     Button caribtn;
     String nokartu;
@@ -89,6 +92,7 @@ public class PenggunaFragment extends Fragment {
         scanbtn = (Button) view.findViewById(R.id.penggunabtnscan);
         caribtn = (Button) view.findViewById(R.id.penggunabtncari);
         result = (EditText) view.findViewById(R.id.penggunaedit);
+        penggunajumlah = (TextView) view.findViewById(R.id.penggunajmlh);
 
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -104,13 +108,19 @@ public class PenggunaFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 nokartu = result.getText().toString();
-                Intent i = new Intent(getActivity(), PenggunaDetailActivity.class);
-                i.putExtra("nokartu", nokartu);
-                startActivity(i);
+
+                if (nokartu.equals("")){
+                    FancyToast.makeText(getActivity().getApplicationContext(),"nomor kartu kosong",FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                }else{
+                    Intent i = new Intent(getActivity(), PenggunaDetailActivity.class);
+                    i.putExtra("nokartu", nokartu);
+                    startActivity(i);
+                }
             }
         });
 
         load_data_from_server();
+        load_data_user_aktif();
 
         // Inflate the layout for this fragment
         return view;
@@ -130,6 +140,51 @@ public class PenggunaFragment extends Fragment {
                 });
             }
         }
+    }
+
+    public void load_data_user_aktif(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url2,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("string",response);
+
+                        try {
+
+                            JSONArray jsonarray = new JSONArray(response);
+
+                            for(int i=0; i < jsonarray.length(); i++) {
+
+                                JSONObject jsonobject = jsonarray.getJSONObject(i);
+
+                                String jumlahpenggunaaktif = jsonobject.getString("jumlah_pengguna").trim();
+                                penggunajumlah.setText(jumlahpenggunaaktif + " Pelanggan");
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getActivity().getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+
+        );
+
+        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 
     public void load_data_from_server() {
