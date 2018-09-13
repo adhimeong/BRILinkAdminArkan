@@ -107,12 +107,14 @@ public class PenggunaFragment extends Fragment {
         caribtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //dapat  berupa nomor kartu atau nama
                 nokartu = result.getText().toString();
 
                 if (nokartu.equals("")){
                     FancyToast.makeText(getActivity().getApplicationContext(),"nomor kartu kosong",FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
                 }else{
-                    Intent i = new Intent(getActivity(), PenggunaDetailActivity.class);
+                    Intent i = new Intent(getActivity(), PenggunaListActivity.class);
                     i.putExtra("nokartu", nokartu);
                     startActivity(i);
                 }

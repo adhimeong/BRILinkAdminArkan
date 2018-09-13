@@ -43,26 +43,27 @@ public class PenggunaDetailActivity extends Activity {
     String nokartu;
     TabHost mtabs;
     String idadmin;
-    TextView viewnama, viewnokartu, viewkontak, viewalamat, viewemail;
+    String cari;
+    TextView viewnama, viewnokartu, viewkontak, viewalamat, viewemail, viewjmlhtrans, viewjmlhpoint;
 
     private ProgressDialog pd;
 
     //data transaksi
-    String urldata1 = "app/transaksi_berhasil.php";
+    String urldata1 = "app/pengguna_detail_transaksi.php";
     String url1 = Server.url_server +urldata1;
     List<DataTransaksiController> dataController1 = new ArrayList<DataTransaksiController>();
     DataTransaksiAdapter adapter1;
     ListView listView1;
 
     //data point
-    String urldata2 = "app/point_harian.php";
+    String urldata2 = "app/pengguna_detail_point.php";
     String url2 = Server.url_server +urldata2;
     List<DataPointController> dataController2 = new ArrayList<DataPointController>();
     DataPointAdapter adapter2;
     ListView listView2;
 
     //data hadiah
-    String urldata3 = "app/service_hadiah.php";
+    String urldata3 = "app/service_hadiah_detail.php";
     String url3 = Server.url_server +urldata3;
     List<DataHadiahController> dataController3 = new ArrayList<DataHadiahController>();
     DataHadiahAdapter adapter3;
@@ -77,7 +78,9 @@ public class PenggunaDetailActivity extends Activity {
     String urldata4 = "app/profilpelanggan.php";
     String url4 = Server.url_server +urldata4;
 
-
+    //data jumlah transaksi point pengguna
+    String urldata5 = "app/pengguna_detail_jumlahpointtrans.php";
+    String url5 = Server.url_server +urldata5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class PenggunaDetailActivity extends Activity {
         setContentView(R.layout.activity_pengguna_detail);
 
         //ambil data dari fragment
-        nokartu = getIntent().getStringExtra("nokartu");
+        cari = getIntent().getStringExtra("nokartu");
 
         pd = new ProgressDialog(this);
         pd.setMessage("loading");
@@ -96,9 +99,10 @@ public class PenggunaDetailActivity extends Activity {
         viewalamat = (TextView) findViewById(R.id.txtprofilalamat);
         viewnokartu = (TextView) findViewById(R.id.penggunadetailnokartu);
         imageprev = (NetworkImageView) findViewById(R.id.profilprevimage);
-        viewnokartu.setText(nokartu);
+        viewjmlhtrans = (TextView) findViewById(R.id.penggunadetailjmlhtransaksi);
+        viewjmlhpoint = (TextView) findViewById(R.id.penggunadetailjmlhpoint);
 
-        load_datapelanggan_from_server(nokartu);
+        load_datapelanggan_from_server(cari);
 
         mtabs = (TabHost) findViewById(R.id.tabHost);
         mtabs.setup();
@@ -127,7 +131,7 @@ public class PenggunaDetailActivity extends Activity {
         adapter1 = new DataTransaksiAdapter(dataController1, this );
         listView1.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
-        load_data_transaksi_from_server();
+
 
         //list point
         listView2 = (ListView)findViewById(R.id.listview02);
@@ -135,7 +139,7 @@ public class PenggunaDetailActivity extends Activity {
         adapter2 = new DataPointAdapter(dataController2, this );
         listView2.setAdapter(adapter2);
         adapter2.notifyDataSetChanged();
-        load_data_point_from_server();
+
 
         //list hadiah
         listView3 = (ListView)findViewById(R.id.listview03);
@@ -143,10 +147,10 @@ public class PenggunaDetailActivity extends Activity {
         adapter3 = new DataHadiahAdapter(dataController3, this );
         listView3.setAdapter(adapter3);
         adapter3.notifyDataSetChanged();
-        load_data_hadiah_from_server();
+
     }
 
-    public void load_datapelanggan_from_server(final String kartu) {
+    public void load_datapelanggan_from_server(final String namakartu) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url4,
                 new Response.Listener<String>() {
@@ -167,13 +171,14 @@ public class PenggunaDetailActivity extends Activity {
                             for(int i=0; i < jsonarray.length(); i++) {
 
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
-
+                                nokartu = jsonobject.getString("no_kartu").trim();
                                 String nama = jsonobject.getString("nama_pelanggan").trim();
                                 String foto = jsonobject.getString("foto");
                                 String alamat = jsonobject.getString("alamat").trim();
                                 String kontak = jsonobject.getString("kontak").trim();
                                 String email = jsonobject.getString("email").trim();
 
+                                viewnokartu.setText(nokartu);
 
                                 if (nama.equals("null")){
                                     viewnama.setText("Nama : kosong");
@@ -208,6 +213,73 @@ public class PenggunaDetailActivity extends Activity {
                                     IMAGE_URL = url + String.valueOf(foto);
                                     imageprev.setImageUrl(IMAGE_URL, mImageLoader);
                                 }
+
+                                load_jumlah_data_from_server(nokartu);
+                                load_data_transaksi_from_server(nokartu);
+                                load_data_point_from_server(nokartu);
+                                load_data_hadiah_from_server();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                            finish();
+                        }
+                    }
+                }
+
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("namakartu", namakartu);
+                return params;
+            }
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void load_jumlah_data_from_server(final String kartu){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url5,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("string",response);
+
+                        try {
+
+                            JSONArray jsonarray = new JSONArray(response);
+
+                            if (jsonarray.length() == 0){
+                                finish();
+                                FancyToast.makeText(getApplicationContext(),"No Kartu tidak ditemukan",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            }
+
+                            for(int i=0; i < jsonarray.length(); i++) {
+
+                                JSONObject jsonobject = jsonarray.getJSONObject(i);
+
+                                String jmlhtransaksi = jsonobject.getString("jumlah_transaksi").trim();
+                                String jmlhpoint = jsonobject.getString("jumlah_point").trim();
+
+                                viewjmlhtrans.setText(jmlhtransaksi);
+                                viewjmlhpoint.setText(jmlhpoint);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -239,9 +311,10 @@ public class PenggunaDetailActivity extends Activity {
         };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 
-    public void load_data_transaksi_from_server() {
+    public void load_data_transaksi_from_server(final String kartu) {
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -295,12 +368,20 @@ public class PenggunaDetailActivity extends Activity {
                     }
                 }
 
-        );
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", kartu);
+                return params;
+            }
+        };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public void load_data_point_from_server() {
+    public void load_data_point_from_server(final String kartu) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url2,
@@ -351,7 +432,15 @@ public class PenggunaDetailActivity extends Activity {
                     }
                 }
 
-        );
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", kartu);
+                return params;
+            }
+        };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }

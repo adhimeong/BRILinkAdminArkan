@@ -37,4 +37,5 @@ dependencies {
     compile 'com.github.mjn1369:prettydialog:1.0.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
     compile 'com.github.faranjit:currency-edittext:1.0.1'
+    implementation 'com.robertlevonyan.view:CustomFloatingActionButton:2.1.0'
 }

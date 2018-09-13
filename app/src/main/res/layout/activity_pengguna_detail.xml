@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengguna.PenggunaDetailActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -109,7 +108,7 @@
                     android:layout_weight="1"/>
 
                 <TextView
-                    android:id="@+id/penggunaprofiljmlhtransaksi"
+                    android:id="@+id/penggunadetailjmlhtransaksi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -204,5 +203,45 @@
             </LinearLayout>
         </TabHost>
     </LinearLayout>
+    <com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout
+        android:id="@+id/floating_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fabMenuGravity = "end|bottom"
+        app:fabMenuStyle="popUp"
+        android:layout_gravity="end|bottom">
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabIcon="@drawable/ic_add_black_24dp"
+            app:fabColor="@color/birutua" />
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="#ff9c10"
+            app:fabIcon="@drawable/ic_card_giftcard_color_24dp"
+            app:fabSizes="normal" />
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="#0b7bc1"
+            app:fabIcon="@drawable/ic_star_border_white_24dp"
+            app:fabSizes="normal" />
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/fab4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="#ea201c"
+            app:fabIcon="@drawable/ic_attach_money_color_24dp"
+            app:fabSizes="normal" />
+
+    </com.robertlevonyan.views.customfloatingactionbutton.FloatingLayout>
 
 </android.support.constraint.ConstraintLayout>

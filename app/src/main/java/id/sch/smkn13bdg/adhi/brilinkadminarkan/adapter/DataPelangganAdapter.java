@@ -25,7 +25,6 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
 public class DataPelangganAdapter extends ArrayAdapter<DataPelangganController> implements View.OnClickListener {
 
-
     private List<DataPelangganController> data;
 
     ImageLoader mImageLoader;
@@ -73,7 +72,7 @@ public class DataPelangganAdapter extends ArrayAdapter<DataPelangganController> 
 
             viewHolder.tglpasif = (TextView) convertView.findViewById(R.id.listtglpasif);
             viewHolder.namapelanggan = (TextView) convertView.findViewById(R.id.listnamapelanggan);
-            viewHolder.fotopelanggan = (NetworkImageView) convertView.findViewById(R.id.listfotopelanggan);
+            viewHolder.fotopelanggan = (NetworkImageView) convertView.findViewById(R.id.listpengggunafoto);
             viewHolder.jumlahpoint = (TextView) convertView.findViewById(R.id.listjumlah_pointpelanggan);
 
             result = convertView;
