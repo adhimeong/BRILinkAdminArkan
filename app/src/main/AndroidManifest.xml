@@ -47,7 +47,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".modulnavpengguna.PenggunaDetailActivity" />
-        <activity android:name=".modulnavpengguna.PenggunaListActivity"></activity>
+        <activity android:name=".modulnavpengguna.PenggunaListActivity" />
+        <activity android:name=".modulnavpengguna.PenggunaTransaksiActivity" />
+        <activity android:name=".modulnavpengguna.PenggunaHadiahActivity"></activity>
     </application>
 
 </manifest>

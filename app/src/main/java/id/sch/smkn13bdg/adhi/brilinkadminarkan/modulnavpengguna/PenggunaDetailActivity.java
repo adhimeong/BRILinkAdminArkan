@@ -2,9 +2,12 @@ package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengguna;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.json.JSONArray;
@@ -37,8 +41,10 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTransaksiController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
 
-public class PenggunaDetailActivity extends Activity {
+public class PenggunaDetailActivity extends AppCompatActivity {
 
     String nokartu;
     TabHost mtabs;
@@ -82,6 +88,12 @@ public class PenggunaDetailActivity extends Activity {
     String urldata5 = "app/pengguna_detail_jumlahpointtrans.php";
     String url5 = Server.url_server +urldata5;
 
+    //tambah point
+    String urldata6 = "app/point_tambah.php";
+    String url6 = Server.url_server +urldata6;
+    int success;
+    String message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +115,7 @@ public class PenggunaDetailActivity extends Activity {
         viewjmlhpoint = (TextView) findViewById(R.id.penggunadetailjmlhpoint);
 
         load_datapelanggan_from_server(cari);
+        load_jumlah_data_from_server(cari);
 
         mtabs = (TabHost) findViewById(R.id.tabHost);
         mtabs.setup();
@@ -131,7 +144,7 @@ public class PenggunaDetailActivity extends Activity {
         adapter1 = new DataTransaksiAdapter(dataController1, this );
         listView1.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
-
+        load_data_transaksi_from_server(cari);
 
         //list point
         listView2 = (ListView)findViewById(R.id.listview02);
@@ -139,6 +152,7 @@ public class PenggunaDetailActivity extends Activity {
         adapter2 = new DataPointAdapter(dataController2, this );
         listView2.setAdapter(adapter2);
         adapter2.notifyDataSetChanged();
+        load_data_point_from_server(cari);
 
 
         //list hadiah
@@ -147,6 +161,84 @@ public class PenggunaDetailActivity extends Activity {
         adapter3 = new DataHadiahAdapter(dataController3, this );
         listView3.setAdapter(adapter3);
         adapter3.notifyDataSetChanged();
+        load_data_hadiah_from_server();
+
+        final FloatingActionButton fab2 = findViewById(R.id.fab2);
+        final FloatingActionButton fab3 = findViewById(R.id.fab3);
+        final FloatingActionButton fab4 = findViewById(R.id.fab4);
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PenggunaTransaksiActivity.class);
+                i.putExtra("nokartu", cari);
+                startActivity(i);
+
+            }
+        });
+
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //pengumaman
+                final PrettyDialog pDialog = new PrettyDialog(PenggunaDetailActivity.this);
+                pDialog
+                        .setTitle("TAMBAH POINT")
+                        .setTitleColor(R.color.colorAccent)
+                        .setMessage("Tambah Point untuk " + cari + " ?")
+                        .setAnimationEnabled(false)
+                        .setIcon(
+                                R.drawable.pdlg_icon_info,     // icon resource
+                                R.color.colorAccent,      // icon tint
+                                new PrettyDialogCallback() {   // icon OnClick listener
+                                    @Override
+                                    public void onClick() {
+                                        pDialog.dismiss();
+                                    }
+                                })
+                        .addButton(
+                                "TAMBAH POINT",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.colorAccent,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        load_tambah_point(cari, idadmin);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+
+                        .addButton(
+                                "BATAL",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.colorPrimaryDark,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .show();
+
+            }
+        });
+
+        fab4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PenggunaHadiahActivity.class);
+                i.putExtra("nokartu", cari);
+                startActivity(i);
+            }
+        });
+
+
+
 
     }
 
@@ -213,12 +305,6 @@ public class PenggunaDetailActivity extends Activity {
                                     IMAGE_URL = url + String.valueOf(foto);
                                     imageprev.setImageUrl(IMAGE_URL, mImageLoader);
                                 }
-
-                                load_jumlah_data_from_server(nokartu);
-                                load_data_transaksi_from_server(nokartu);
-                                load_data_point_from_server(nokartu);
-                                load_data_hadiah_from_server();
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -500,6 +586,66 @@ public class PenggunaDetailActivity extends Activity {
                 }
 
         );
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public  void load_tambah_point(final String no, final String id){
+
+        pd.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url6,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response: ",response.toString());
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            success = jObj.getInt("success");
+                            message = jObj.getString("message");
+
+                            // Cek error node pada json
+                            if (success == 1) {
+                                Log.d("Add/update", jObj.toString());
+                                /*Intent intent = new Intent(getApplication(), MainActivity.class);
+                                startActivity(intent);*/
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
+                            } else {
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                            }
+                        } catch (JSONException e) {
+                            // JSON error
+                            e.printStackTrace();
+                        }
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", no);
+                params.put("id_admin", id);
+                return params;
+            }
+
+        };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
