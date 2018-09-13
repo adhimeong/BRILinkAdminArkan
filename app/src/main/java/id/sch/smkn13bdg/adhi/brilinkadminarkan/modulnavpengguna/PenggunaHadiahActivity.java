@@ -73,6 +73,7 @@ public class PenggunaHadiahActivity extends AppCompatActivity {
         load_data_from_server();
     }
 
+
     public void load_data_from_server() {
         pd.show();
 
