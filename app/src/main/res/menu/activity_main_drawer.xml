@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_pengumuman"
             android:icon="@drawable/ic_menu_send"
-            android:title="Penguman" />
+            android:title="Pengumuman" />
     </group>
 
     <item android:title="Pengaturan">

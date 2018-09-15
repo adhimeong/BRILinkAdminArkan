@@ -34,8 +34,10 @@ import java.util.Map;
 
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanCardActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataHadiahController;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 import libs.mjn.prettydialog.PrettyDialog;
@@ -69,6 +71,7 @@ public class BagiHadiahFragment extends Fragment {
     TextView result;
     int success;
     String message;
+    String idadmin;
 
     public BagiHadiahFragment() {
         // Required empty public constructor
@@ -83,6 +86,9 @@ public class BagiHadiahFragment extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
+
+        UserController user = SharedPrefManager.getInstance(getActivity().getApplicationContext()).getUser();
+        idadmin = user.getIdadmin();
 
         pd = new ProgressDialog(getActivity());
         pd.setMessage("loading");
@@ -165,7 +171,7 @@ public class BagiHadiahFragment extends Fragment {
                                             @Override
                                             public void onClick() {
 
-                                                load_ambil_hadiah(nokartu, idhadiah);
+                                                load_ambil_hadiah(nokartu, idhadiah, idadmin);
 
                                                 pDialog.dismiss();
                                             }
@@ -191,7 +197,7 @@ public class BagiHadiahFragment extends Fragment {
         }
     }
 
-    public  void load_ambil_hadiah(final String no, final String id){
+    public  void load_ambil_hadiah(final String no, final String id, final String admin ){
 
         pd.show();
 
@@ -243,6 +249,7 @@ public class BagiHadiahFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("no_kartu", no);
                 params.put("id_hadiah", id);
+                params.put("idadmin", admin);
                 return params;
             }
 

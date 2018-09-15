@@ -33,9 +33,11 @@ import java.util.Map;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataPemenangAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataPointAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataTransaksiAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataHadiahController;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataPemenangController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataPointController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTransaksiController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
@@ -69,10 +71,10 @@ public class PenggunaDetailActivity extends AppCompatActivity {
     ListView listView2;
 
     //data hadiah
-    String urldata3 = "app/service_hadiah_detail.php";
+    String urldata3 = "app/pengguna_detail_pemenang.php";
     String url3 = Server.url_server +urldata3;
-    List<DataHadiahController> dataController3 = new ArrayList<DataHadiahController>();
-    DataHadiahAdapter adapter3;
+    List<DataPemenangController> dataController3 = new ArrayList<DataPemenangController>();
+    DataPemenangAdapter adapter3;
     ListView listView3;
 
     //data profil penguna
@@ -158,10 +160,10 @@ public class PenggunaDetailActivity extends AppCompatActivity {
         //list hadiah
         listView3 = (ListView)findViewById(R.id.listview03);
         dataController3.clear();
-        adapter3 = new DataHadiahAdapter(dataController3, this );
+        adapter3 = new DataPemenangAdapter(dataController3, this );
         listView3.setAdapter(adapter3);
         adapter3.notifyDataSetChanged();
-        load_data_hadiah_from_server();
+        load_data_hadiah_from_server(cari);
 
         final FloatingActionButton fab2 = findViewById(R.id.fab2);
         final FloatingActionButton fab3 = findViewById(R.id.fab3);
@@ -531,7 +533,7 @@ public class PenggunaDetailActivity extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public void load_data_hadiah_from_server() {
+    public void load_data_hadiah_from_server(final String kartu) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url3,
@@ -549,18 +551,22 @@ public class PenggunaDetailActivity extends AppCompatActivity {
 
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
 
-                                String id_hadiah = jsonobject.getString("id_hadiah").trim();
-                                String nama_hadiah = jsonobject.getString("nama_hadiah").trim();
-                                String foto_hadiah = jsonobject.getString("foto_hadiah").trim();
-                                String jumlah_point = jsonobject.getString("jumlah_point").trim();
-                                String jumlah_items = jsonobject.getString("jumlah_items").trim();
+                                String nama= jsonobject.getString("nama").trim();
+                                String admin = jsonobject.getString("admin").trim();
+                                String tanggal = jsonobject.getString("tanggal").trim();
+                                String hadiah = jsonobject.getString("hadiah").trim();
+                                String no_kartu = jsonobject.getString("nokartu").trim();
+                                String foto = jsonobject.getString("foto").trim();
+                                String status = jsonobject.getString("status").trim();
 
-                                DataHadiahController d1 = new DataHadiahController();
-                                d1.setId_hadiah(id_hadiah.toString());
-                                d1.setNama_hadiah(nama_hadiah.toString());
-                                d1.setFoto_hadiah(foto_hadiah.toString());
-                                d1.setJumlah_point(jumlah_point.toString());
-                                d1.setJumlah_items(jumlah_items.toString());
+                                DataPemenangController d1 = new DataPemenangController();
+                                d1.setNama(nama.toString());
+                                d1.setAdmin(admin.toString());
+                                d1.setTanggal(tanggal.toString());
+                                d1.setHadiah(hadiah.toString());
+                                d1.setNo_kartu(no_kartu.toString());
+                                d1.setFoto(foto.toString());
+                                d1.setStatus(status.toString());
 
                                 dataController3.add(d1);
 
@@ -585,7 +591,16 @@ public class PenggunaDetailActivity extends AppCompatActivity {
                     }
                 }
 
-        );
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", kartu);
+                return params;
+            }
+
+        };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }

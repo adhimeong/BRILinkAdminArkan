@@ -20,13 +20,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataHadiahAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataHadiahController;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
 
 public class PenggunaHadiahActivity extends AppCompatActivity {
 
@@ -43,14 +49,22 @@ public class PenggunaHadiahActivity extends AppCompatActivity {
     DataHadiahAdapter adapter;
     ListView listView;
 
-    TextView result;
     int success;
     String message;
+    String idadmin;
+    String nokartu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengguna_hadiah);
+
+        // id admin diambil dari sistem loogin
+        UserController user = SharedPrefManager.getInstance(this.getApplicationContext()).getUser();
+        idadmin = user.getIdadmin();
+
+        //id pengguna ambil data dari activity sebelumnya
+        nokartu= getIntent().getStringExtra("nokartu");
 
         pd = new ProgressDialog(this);
         pd.setMessage("loading");
@@ -65,14 +79,59 @@ public class PenggunaHadiahActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                final String idhadiah = dataController.get(position).getId_hadiah();
 
+                //pengumaman
+                final PrettyDialog pDialog = new PrettyDialog(PenggunaHadiahActivity.this);
+                pDialog
+                        .setTitle("BERI HADIAH")
+                        .setTitleColor(R.color.colorAccent)
+                        .setMessage("Lepaskan hadiah untuk " + nokartu + " ?")
+                        .setAnimationEnabled(false)
+                        .setIcon(
+                                R.drawable.pdlg_icon_info,     // icon resource
+                                R.color.colorAccent,      // icon tint
+                                new PrettyDialogCallback() {   // icon OnClick listener
+                                    @Override
+                                    public void onClick() {
+                                        pDialog.dismiss();
+                                    }
+                                })
+                        .addButton(
+                                "LEPASKAN",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.hijau,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        load_ambil_hadiah(nokartu, idhadiah);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+
+                        .addButton(
+                                "BATAL",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.merah,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .show();
             }
         });
 
         load_data_from_server();
     }
-
 
     public void load_data_from_server() {
         pd.show();
@@ -130,6 +189,66 @@ public class PenggunaHadiahActivity extends AppCompatActivity {
                 }
 
         );
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public  void load_ambil_hadiah(final String no, final String id){
+
+        pd.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url2,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response: ",response.toString());
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            success = jObj.getInt("success");
+                            message = jObj.getString("message");
+
+                            // Cek error node pada json
+                            if (success == 1) {
+                                Log.d("Add/update", jObj.toString());
+                                /*Intent intent = new Intent(getApplication(), MainActivity.class);
+                                startActivity(intent);*/
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
+                            } else {
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                            }
+                        } catch (JSONException e) {
+                            // JSON error
+                            e.printStackTrace();
+                        }
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", no);
+                params.put("id_hadiah", id);
+                return params;
+            }
+
+        };
 
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }

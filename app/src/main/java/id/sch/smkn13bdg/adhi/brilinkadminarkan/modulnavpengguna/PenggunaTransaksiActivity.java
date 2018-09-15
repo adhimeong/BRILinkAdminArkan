@@ -30,6 +30,8 @@ import java.util.Map;
 import faranjit.currency.edittext.CurrencyEditText;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.PrintActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
@@ -48,6 +50,7 @@ public class PenggunaTransaksiActivity extends Activity {
     Spinner banktujuan, jenistransaksi;
     Button btnproses;
     TextView txttarif, nokartu;
+    String idadmin;
 
     int success;
 
@@ -58,6 +61,9 @@ public class PenggunaTransaksiActivity extends Activity {
 
         //ambil data dari fragment
         no_kartu = getIntent().getStringExtra("nokartu");
+
+        UserController user = SharedPrefManager.getInstance(this.getApplicationContext()).getUser();
+        idadmin = user.getIdadmin();
 
         banktujuan = (Spinner)findViewById(R.id.spinnertransasibank);
         jenistransaksi = (Spinner)findViewById(R.id.spinnertransasijenistransaksi);
@@ -138,7 +144,7 @@ public class PenggunaTransaksiActivity extends Activity {
                     tariftransaksi = edittarif.getText().toString();
                 }
 
-                load_proses_transaksi_to_server(no_kartu, rektujuan, nominal, bank, transaksi, tariftransaksi, statustransaksi);
+                load_proses_transaksi_to_server(no_kartu, rektujuan, nominal, bank, transaksi, tariftransaksi, statustransaksi, idadmin);
 
                 Intent i = new Intent(getApplicationContext(), PrintActivity.class);
                 i.putExtra("nokartu", no_kartu);
@@ -152,7 +158,7 @@ public class PenggunaTransaksiActivity extends Activity {
 
     }
 
-    public void load_proses_transaksi_to_server( final String a, final String b, final String c, final String d, final String e, final String f, final String g){
+    public void load_proses_transaksi_to_server( final String a, final String b, final String c, final String d, final String e, final String f, final String g, final String h){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -171,7 +177,7 @@ public class PenggunaTransaksiActivity extends Activity {
 
                             // Cek error node pada json
                             if (success == 1) {
-                                Log.d("Add antrian transaksi", jObj.toString());
+                                Log.d("Add transaksi", jObj.toString());
                                 FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
                             } else {
                                 FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
@@ -181,6 +187,7 @@ public class PenggunaTransaksiActivity extends Activity {
                             e.printStackTrace();
                         }
                         pd.hide();
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -207,6 +214,7 @@ public class PenggunaTransaksiActivity extends Activity {
                 params.put("jenis_transaksi", e);
                 params.put("tariftransaksi", f);
                 params.put("status_transaksi", g);
+                params.put("id_admin", h);
                 return params;
             }
 

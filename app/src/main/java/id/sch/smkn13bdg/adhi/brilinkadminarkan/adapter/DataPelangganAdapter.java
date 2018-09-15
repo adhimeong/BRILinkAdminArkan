@@ -72,7 +72,7 @@ public class DataPelangganAdapter extends ArrayAdapter<DataPelangganController> 
 
             viewHolder.tglpasif = (TextView) convertView.findViewById(R.id.listtglpasif);
             viewHolder.namapelanggan = (TextView) convertView.findViewById(R.id.listnamapelanggan);
-            viewHolder.fotopelanggan = (NetworkImageView) convertView.findViewById(R.id.listpengggunafoto);
+            viewHolder.fotopelanggan = (NetworkImageView) convertView.findViewById(R.id.listpelangganfoto);
             viewHolder.jumlahpoint = (TextView) convertView.findViewById(R.id.listjumlah_pointpelanggan);
 
             result = convertView;
