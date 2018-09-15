@@ -3,27 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="7dp"
+    android:paddingTop="10dp"
     android:layout_marginBottom="7dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="30dp">
         <TextView
             android:id="@+id/listtarifbawah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="batas bawah"
-            android:textAlignment="center" />
+            android:textColor="@color/colorPrimary"/>
         <TextView
             android:id="@+id/listtarifatas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="batas atas"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"/>
+            android:text="batas atas" />
         <TextView
             android:id="@+id/listtariftarif"
             android:layout_width="match_parent"
@@ -31,13 +30,13 @@
             android:layout_weight="1"
             android:text="tarif"
             android:textStyle="bold"
-            android:textAlignment="center"
             android:textSize="18dp"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:textAlignment="center"/>
 
     </LinearLayout>
     <View
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorAccent"/>
