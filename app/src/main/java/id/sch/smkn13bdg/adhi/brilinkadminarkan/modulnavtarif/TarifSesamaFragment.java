@@ -2,13 +2,18 @@ package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavtarif;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -31,6 +36,8 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataTarifAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTarifControler;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmhadiah.DetailHadiahActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.TransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
@@ -38,6 +45,7 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
  * A simple {@link Fragment} subclass.
  */
 public class TarifSesamaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
 
     private ProgressDialog pd;
     //volley
@@ -78,6 +86,41 @@ public class TarifSesamaFragment extends Fragment implements SwipeRefreshLayout.
 
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+
+                final String idtarif = dataController.get(position).getIdtarif();
+                final String btsbawh = dataController.get(position).getBatasbawah();
+                final String btsatas = dataController.get(position).getBatasatas();
+                final String tarif = dataController.get(position).getTarif();
+                final String jenis = "sesama";
+                final String aksi = "update";
+
+                Intent i = new Intent(getActivity(), TarifEditActivity.class);
+                i.putExtra("idtarif", idtarif);
+                i.putExtra("bawah", btsbawh);
+                i.putExtra("atas", btsatas);
+                i.putExtra("tarif", tarif);
+                i.putExtra("jenis", jenis);
+                i.putExtra("aksi", aksi);
+                startActivity(i);
+
+            }
+        });
+
+        FloatingActionButton fab = view.findViewById(R.id.fabtambahtarif);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String aksi2 = "tambah";
+
+                Intent i2 = new Intent(getActivity(), TarifEditActivity.class);
+                i2.putExtra("aksi", aksi2);
+                startActivity(i2);
+            }
+        });
 
         // SwipeRefreshLayout
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);

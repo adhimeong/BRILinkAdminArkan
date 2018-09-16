@@ -43,10 +43,10 @@
                 android:id="@+id/edittransaksinominal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
                 android:hint="Nominal"
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
+                android:inputType="numberDecimal"
                 app:locale="id"
                 app:showSymbol="false" />
 

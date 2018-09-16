@@ -26,7 +26,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter >
+            </intent-filter>
         </activity>
         <activity android:name=".ScanCardActivity" />
         <activity android:name=".modulbtmhadiah.DetailHadiahActivity" />
@@ -34,7 +34,6 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-
 
         <activity android:name=".modulbtmhadiah.EditHadiahActivity" />
         <activity android:name=".PrintActivity" />
@@ -50,7 +49,8 @@
         <activity android:name=".modulnavpengguna.PenggunaDetailActivity" />
         <activity android:name=".modulnavpengguna.PenggunaListActivity" />
         <activity android:name=".modulnavpengguna.PenggunaTransaksiActivity" />
-        <activity android:name=".modulnavpengguna.PenggunaHadiahActivity"></activity>
+        <activity android:name=".modulnavpengguna.PenggunaHadiahActivity" />
+        <activity android:name=".modulnavtarif.TarifEditActivity"></activity>
     </application>
 
 </manifest>
