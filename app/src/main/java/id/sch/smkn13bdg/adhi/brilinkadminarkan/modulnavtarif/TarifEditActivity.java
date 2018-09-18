@@ -170,15 +170,6 @@ public class TarifEditActivity extends AppCompatActivity {
     public void load_proses_tarif(final String a, final String b, final String c, final String d, final String e, final String f, final String g){
         pd.show();
 
-        Log.d("atas", a);
-        Log.d("bawah", b);
-        Log.d("tarif", c);
-        Log.d("idtarif", d);
-        Log.d("jenis", e);
-        Log.d("aksi", f);
-        Log.d("idadmin", g);
-
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
                 new Response.Listener<String>() {

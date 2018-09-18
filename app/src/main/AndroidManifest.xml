@@ -50,7 +50,8 @@
         <activity android:name=".modulnavpengguna.PenggunaListActivity" />
         <activity android:name=".modulnavpengguna.PenggunaTransaksiActivity" />
         <activity android:name=".modulnavpengguna.PenggunaHadiahActivity" />
-        <activity android:name=".modulnavtarif.TarifEditActivity"></activity>
+        <activity android:name=".modulnavtarif.TarifEditActivity" />
+        <activity android:name=".modulnavbank.BankEditActivity"></activity>
     </application>
 
 </manifest>
