@@ -67,7 +67,7 @@ public class EditHadiahActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_hadiah);
+        setContentView(R.layout.activity_hadiah_edit);
 
         pd = new ProgressDialog(this);
         pd.setMessage("loading");
@@ -364,7 +364,6 @@ public class EditHadiahActivity extends AppCompatActivity {
             MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
         }
     }
-
     public  void tambahdatahadiah(){
 
         pd.show();
