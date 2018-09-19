@@ -74,9 +74,9 @@ public class BannerEditActivity extends AppCompatActivity {
                 if (posisi.equals("BANNER 1")){
                     namafoto = "banner01";
                 }else if (posisi.equals("BANNER 2")){
-                    namafoto = "banner01";
+                    namafoto = "banner02";
                 }else if (posisi.equals("BANNER 3")){
-                    namafoto = "banner01";
+                    namafoto = "banner03";
                 }
             }
 
