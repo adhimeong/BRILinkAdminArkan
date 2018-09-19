@@ -22,16 +22,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/banknama"
                 android:textColor="@color/colorPrimary"
-                android:hint="Nama Bank"
-                />
+                android:hint="Nama Bank"/>
 
             <EditText
                 android:hint="Kode Bank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/bankkode"
-                android:textColor="@color/colorAccent"
-                />
+                android:textColor="@color/colorAccent" />
 
             <Button
                 android:id="@+id/bankbtnhapus"
@@ -40,15 +38,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="HAPUS"
-                android:layout_gravity="center"
-                android:visibility="invisible"/>
+                android:layout_gravity="center"/>
 
             <Button
-                android:id="@+id/bankbtnproses"
+                android:id="@+id/bankbtnupdate"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="UPDATE TARIF"
+                android:text="UPDATE"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/bankbtntambah"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SIMPAN"
                 android:layout_gravity="center"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>

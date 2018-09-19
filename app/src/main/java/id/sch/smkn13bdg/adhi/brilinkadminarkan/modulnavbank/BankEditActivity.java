@@ -31,12 +31,12 @@ public class BankEditActivity extends AppCompatActivity {
     String urldata = "app/bank_proses.php";
     String url = Server.url_server +urldata;
 
-    String idbanktxt, namabanktxt, kodebanktxt, aksitxt;
+    String idbanktxt, namabanktxt, kodebanktxt, aksitxt, idbank;
     EditText nama;
     EditText kode;
     String namabaru;
     String kodebaru;
-    Button btnhapus, btnupdate;
+    Button btnhapus, btnupdate, btntambah;
     String aksi;
 
     int success;
@@ -57,23 +57,29 @@ public class BankEditActivity extends AppCompatActivity {
         nama = (EditText) findViewById(R.id.banknama);
         kode = (EditText) findViewById(R.id.bankkode);
         btnhapus = (Button) findViewById(R.id.bankbtnhapus);
-        btnupdate = (Button) findViewById(R.id.bankbtnproses);
+        btnupdate = (Button) findViewById(R.id.bankbtnupdate);
+        btntambah = (Button) findViewById(R.id.bankbtntambah);
 
         if (aksitxt.equals("tambah")){
             //atur radio button
             btnhapus.setVisibility(View.INVISIBLE);
-            btnupdate.setText("SIMPAN BANK");
-        }else{
+            btnupdate.setVisibility(View.INVISIBLE);
+            btntambah.setVisibility(View.VISIBLE);
+
+        }else if (aksitxt.equals("edit")){
+
             btnhapus.setVisibility(View.VISIBLE);
+            btnupdate.setVisibility(View.VISIBLE);
+            btntambah.setVisibility(View.INVISIBLE);
+
             //update data diambil dari fragmen sebelumnya
             namabanktxt = getIntent().getStringExtra("namabank");
             kodebanktxt = getIntent().getStringExtra("kodebank");
 
             nama.setText(namabanktxt);
             kode.setText(kodebanktxt);
-
-            btnupdate.setText("UPDATE BANK");
         }
+
 
         btnupdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +95,20 @@ public class BankEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 aksi = "hapus";
-                namabaru = "";
-                kodebaru = "";
+                namabaru = "kosong";
+                kodebaru = "kosong";
                 load_proses_bank(idbanktxt, namabaru, kodebaru, aksi);
+            }
+        });
+
+        btntambah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aksi = "tambah";
+                idbank = "kosong";
+                namabaru = nama.getText().toString();
+                kodebaru = kode.getText().toString();
+                load_proses_bank(idbank, namabaru, kodebaru, aksi);
             }
         });
     }
