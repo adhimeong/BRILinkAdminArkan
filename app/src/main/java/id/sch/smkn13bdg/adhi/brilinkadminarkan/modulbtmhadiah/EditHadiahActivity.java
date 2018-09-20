@@ -273,6 +273,7 @@ public class EditHadiahActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             pd.hide();
+                            finish();
                         }
                     },
                     new Response.ErrorListener() {
@@ -282,6 +283,7 @@ public class EditHadiahActivity extends AppCompatActivity {
 
                                 FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
                                 pd.hide();
+                                finish();
                             }
                         }
                     }
@@ -333,6 +335,7 @@ public class EditHadiahActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             pd.hide();
+                            finish();
                         }
                     },
                     new Response.ErrorListener() {
@@ -342,6 +345,7 @@ public class EditHadiahActivity extends AppCompatActivity {
 
                                 FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
                                 pd.hide();
+                                finish();
                             }
                         }
                     }
@@ -399,6 +403,7 @@ public class EditHadiahActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         pd.hide();
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -408,6 +413,7 @@ public class EditHadiahActivity extends AppCompatActivity {
 
                             FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
                             pd.hide();
+                            finish();
                         }
                     }
                 }

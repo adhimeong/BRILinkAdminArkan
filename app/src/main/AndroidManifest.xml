@@ -52,7 +52,9 @@
         <activity android:name=".modulnavpengguna.PenggunaHadiahActivity" />
         <activity android:name=".modulnavtarif.TarifEditActivity" />
         <activity android:name=".modulnavbank.BankEditActivity" />
-        <activity android:name=".modulnavbanner.BannerEditActivity"></activity>
+        <activity android:name=".modulnavbanner.BannerEditActivity" />
+        <activity android:name=".ScanTextActivity" />
+        <activity android:name=".modulbtmtransaksi.TransaksiScanTextActivity"></activity>
     </application>
 
 </manifest>

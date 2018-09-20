@@ -1,8 +1,8 @@
 package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataTransaksiAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTransaksiController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulnavpengguna.PenggunaTransaksiActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 import libs.mjn.prettydialog.PrettyDialog;
@@ -82,13 +84,26 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
         UserController user = SharedPrefManager.getInstance(getActivity().getApplicationContext()).getUser();
         idadmin = user.getIdadmin();
 
-        FloatingActionButton fab = view.findViewById(R.id.fabtransaksi);
-        fab.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton fab2 = view.findViewById(R.id.fab2);
+        final FloatingActionButton fab3 = view.findViewById(R.id.fab3);
+
+        fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
             }
         });
+
+        fab3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity().getApplicationContext(), TransaksiScanTextActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+
 
         dataController.clear();
 
