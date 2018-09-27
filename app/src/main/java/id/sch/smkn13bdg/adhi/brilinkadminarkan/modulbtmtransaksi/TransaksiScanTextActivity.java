@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,13 +22,11 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanTextActivity;
 
 public class TransaksiScanTextActivity extends AppCompatActivity {
 
-    FloatingActionButton scantxt;
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSION_REQUEST = 200;
-    private EditText result;
     EditText nokartu, norek, nominal, penerima, bank;
-    Button generate;
-    LinearLayout form;
+    Button btntarif, btnproses, btnscan;
+    TextView tarifview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +43,12 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
         nominal = (EditText) findViewById(R.id.edittransaksinominal);
         penerima = (EditText) findViewById(R.id.edittransaksipenerima);
         bank = (EditText) findViewById(R.id.edittransaksibank);
-        generate = (Button) findViewById(R.id.btntransaksigenerate);
-        form = (LinearLayout) findViewById(R.id.formtransaksi);
+        btntarif = (Button) findViewById(R.id.btntransaksiloadtarif);
+        btnproses = (Button) findViewById(R.id.btntransasiproses);
+        btnscan =(Button) findViewById(R.id.btntransasiscan);
+        tarifview = (TextView) findViewById(R.id.txtviewtransaksitarif);
 
-        result = (EditText) findViewById(R.id.result);
-        scantxt = (FloatingActionButton)findViewById(R.id.fabtransaksiscanantrian);
-        scantxt.setOnClickListener(new View.OnClickListener() {
+        btnscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ScanTextActivity.class);
@@ -57,26 +56,21 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
             }
         });
 
-        generate.setOnClickListener(new View.OnClickListener() {
+        btntarif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ListBankTransaksiActivity.class);
+                String nominaltxt = nominal.getText().toString();
+                String banktxt = bank.getText().toString();
+                intent.putExtra("nominal", nominaltxt);
+                intent.putExtra("bank", banktxt);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
 
-                String hasil = result.getText().toString();
-                String[] separated = hasil.split("\n");
-                final String kartutxt = separated[0];
-                final String norektxt = separated[1];
-                final String nomaltxt = separated[2];
-                final String penerimatxt = separated[3];
-                final String banktxt = separated[4];
-
-                nokartu.setText(kartutxt);
-                norek.setText(norektxt);
-                nominal.setText(nomaltxt);
-                penerima.setText(penerimatxt);
-                bank.setText(banktxt);
-
-                form.setVerticalGravity(View.VISIBLE);
-                scantxt.setVisibility(View.INVISIBLE);
+        btnproses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });
@@ -86,14 +80,87 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null) {
-                final String camtext = data.getStringExtra("camtext");
-                result.post(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        result.setText(camtext);
+                final String camtext = data.getStringExtra("camtext");
+                final String tariftxt = data.getStringExtra("tarif");
+
+                if (camtext != null){
+
+                    btnscan.setText("SCAN ULANG");
+
+                    String[] separated = camtext.split("\n");
+                    String kartutxt = separated[0];
+                    String norektxt = separated[1];
+                    String nominaltxt = separated[2];
+                    String penerimatxt = separated[3];
+                    String banktxt = separated[4];
+
+                    if (kartutxt != null){
+                        String kartucor = kartutxt.replace("&", "8")
+                                .replace("O", "0")
+                                .replace("o", "0")
+                                .replace("C", "0")
+                                .replace("c", "0")
+                                .replace("I", "1")
+                                .replace("i", "1")
+                                .replace(" ", "")
+                                .replace("S", "5");
+                        Log.d("kartucor", kartucor);
+                        nokartu.setText(kartucor);
+                    }else{
+                        nokartu.setText("");
                     }
-                });
+
+                    if (norektxt != null){
+                        String norekcor = norektxt.replace("&", "8")
+                                .replace("O", "0")
+                                .replace("o", "0")
+                                .replace("C", "0")
+                                .replace("c", "0")
+                                .replace("I", "1")
+                                .replace("i", "1")
+                                .replace(" ", "")
+                                .replace("S", "5");
+                        norek.setText(norekcor);
+                    }else{
+                        norek.setText("");
+                    }
+
+                    if (nominaltxt !=null){
+                        String nominalcor = nominaltxt.replace("&", "8")
+                                .replace("O", "0")
+                                .replace("I", "1")
+                                .replace(" ", "")
+                                .replace("c", "0")
+                                .replace("C", "0")
+                                .replace("S", "5")
+                                .replace("s", "5")
+                                .replace("o", "0")
+                                .replace("G", "6")
+                                .replace(".", "");
+                        nominal.setText(nominalcor);
+                    }else{
+                        nominal.setText("");
+                    }
+
+                    if (penerimatxt != null){
+                        penerima.setText(penerimatxt);
+                    }else{
+                        penerima.setText("");
+                    }
+
+                    if (banktxt != null){
+                        bank.setText(banktxt);
+                    }else{
+                        bank.setText("");
+                    }
+
+
+                }else if(tariftxt != null){
+
+                   tarifview.setText(tariftxt);
+
+                }
             }
         }
     }

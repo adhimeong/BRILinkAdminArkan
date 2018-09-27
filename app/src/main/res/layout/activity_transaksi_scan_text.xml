@@ -3,19 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.TransaksiScanTextActivity">
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/result"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btntransaksigenerate"
-        android:text="GENERATE"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,44 +12,44 @@
         android:orientation="vertical"
         android:id="@+id/formtransaksi"
         android:padding="15dp"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btntransasiscan"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SCAN" />
 
         <EditText
-                android:id="@+id/edittransaksinokartu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Nomor Kartu"
-                android:inputType="text"
-                android:textColor="@color/colorAccent"
-                android:layout_marginTop="15dp"
-                android:textStyle="bold"/>
+            android:id="@+id/edittransaksinokartu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nomor Kartu"
+            android:inputType="text"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/edittransaksitujuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="No Rekening Tujuan"
-                android:inputType="number"
-                android:textColor="@color/colorAccent"/>
+        <EditText
+            android:id="@+id/edittransaksitujuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="No Rekening Tujuan"
+            android:textColor="@color/colorAccent"/>
 
-            <faranjit.currency.edittext.CurrencyEditText
-                android:id="@+id/edittransaksinominal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nominal"
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent"
-                android:inputType="numberDecimal"
-                app:locale="id"
-                app:showSymbol="false" />
+        <EditText
+            android:id="@+id/edittransaksinominal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nominal"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent" />
 
         <EditText
             android:id="@+id/edittransaksipenerima"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Penerima"
             android:inputType="text"
             android:textColor="@color/colorAccent"/>
@@ -69,45 +58,47 @@
             android:id="@+id/edittransaksibank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:hint="Bank"
             android:inputType="text"
             android:textColor="@color/colorAccent"/>
 
-            <TextView
-                android:layout_marginTop="25dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BIAYA ADMINISTRASI"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                />
-            <Button
-                android:id="@+id/btntransaksiloadtarif"
-                android:layout_marginTop="20dp"
-                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CEK TARIF" />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BIAYA ADMINISTRASI"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            />
 
-            <Button
-                android:id="@+id/btntransasiproses"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="PROSES" />
+        <TextView
+            android:id="@+id/txtviewtransaksitarif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rp. 0 "
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+        <Button
+            android:id="@+id/btntransaksiloadtarif"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CEK TARIF" />
+
+        <Button
+            android:id="@+id/btntransasiproses"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PROSES" />
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabtransaksiscanantrian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="24dp"
-        android:src="@drawable/ic_format_shapes_black_24dp"
-        />
 
 </LinearLayout>
