@@ -77,7 +77,7 @@ public class JenisTransaksiActivity extends AppCompatActivity {
                                     final int position, long id) {
 
                 namajenistransaksi = listJenis.get(position).getNamajenistransaksi();
-                Intent i = new Intent(getApplicationContext(), TransaksiScanTextActivity.class);
+                Intent i = new Intent(getApplicationContext(), TransaksiActivity.class);
                 i.putExtra("jenistransaksi", namajenistransaksi);
                 startActivity(i);
             }
