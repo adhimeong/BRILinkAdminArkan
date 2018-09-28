@@ -55,7 +55,8 @@
         <activity android:name=".modulnavbanner.BannerEditActivity" />
         <activity android:name=".ScanTextActivity" />
         <activity android:name=".modulbtmtransaksi.TransaksiScanTextActivity" />
-        <activity android:name=".modulbtmtransaksi.ListBankTransaksiActivity"></activity>
+        <activity android:name=".modulbtmtransaksi.ListBankTransaksiActivity" />
+        <activity android:name=".modulbtmtransaksi.JenisTransaksiActivity"></activity>
     </application>
 
 </manifest>

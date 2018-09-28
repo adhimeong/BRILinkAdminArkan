@@ -286,5 +286,4 @@ public class TransaksiFragment extends Fragment {
 
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
-
 }

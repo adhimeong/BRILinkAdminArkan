@@ -1,5 +1,6 @@
 package id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.FloatingActionButton;
@@ -15,10 +16,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.PrintActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanTextActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
 public class TransaksiScanTextActivity extends AppCompatActivity {
 
@@ -27,6 +42,15 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
     EditText nokartu, norek, nominal, penerima, bank;
     Button btntarif, btnproses, btnscan;
     TextView tarifview;
+    String banknama, bankkode, txtnokartu, txtnorek, txtnominal, txtpenerima, txttarif,jenistransaksi, statustransaksi;
+
+    private ProgressDialog pd;
+
+    String urldata = "app/prosestransaksi.php";
+    String url = Server.url_server +urldata;
+    int success;
+    String message;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +61,9 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
+
+        pd = new ProgressDialog(this);
+        pd.setMessage("loading");
 
         nokartu = (EditText) findViewById(R.id.edittransaksinokartu);
         norek = (EditText) findViewById(R.id.edittransaksitujuan);
@@ -71,9 +98,93 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
         btnproses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                txtnokartu = nokartu.getText().toString();
+                txtnorek = norek.getText().toString();
+                txtnominal = nominal.getText().toString();
+                txtpenerima = penerima.getText().toString();
+                txttarif = tarifview.getText().toString();
+                statustransaksi = "selesai";
+                jenistransaksi = "SETOR";
+                Log.d("namabank", banknama);
+                Log.d("kodebank", bankkode);
+
+                load_proses_transaksi_to_server(txtnokartu, txtnorek, txtnominal, banknama, jenistransaksi, txttarif, statustransaksi);
+
+                Intent i = new Intent(TransaksiScanTextActivity.this, PrintActivity.class);
+                i.putExtra("nokartu", txtnokartu);
+                i.putExtra("rektujuan", txtnorek);
+                i.putExtra("nominal", txtnominal);
+                i.putExtra("penerima", txtpenerima);
+                i.putExtra("bank", banknama);
+                i.putExtra("kode", bankkode);
+                i.putExtra("tarif", txttarif);
+                startActivity(i);
 
             }
         });
+    }
+
+    public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g){
+        pd.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response: ",response.toString());
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            success = jObj.getInt("success");
+                            message = jObj.getString("message");
+
+                            // Cek error node pada json
+                            if (success == 1) {
+                                Log.d("Add/update transaksi", jObj.toString());
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
+                            } else {
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                            }
+                        } catch (JSONException e) {
+                            // JSON error
+                            e.printStackTrace();
+                        }
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", a);
+                params.put("rektujuan", b);
+                params.put("nominal", c);
+                params.put("bank", d);
+                params.put("jenis_transaksi", e);
+                params.put("tariftransaksi", f);
+                params.put("status_transaksi", g);
+                return params;
+            }
+
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 
     @Override
@@ -157,8 +268,10 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
 
 
                 }else if(tariftxt != null){
-
-                   tarifview.setText(tariftxt);
+                    banknama = data.getStringExtra("namabank");
+                    bankkode = data.getStringExtra("kodebank");
+                    bank.setText(banknama);
+                    tarifview.setText(tariftxt);
 
                 }
             }

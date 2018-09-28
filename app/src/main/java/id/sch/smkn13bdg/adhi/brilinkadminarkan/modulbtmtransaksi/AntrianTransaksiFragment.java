@@ -90,7 +90,9 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
+                Intent i = new Intent(getActivity().getApplicationContext(), JenisTransaksiActivity.class);
+                startActivity(i);
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
             }
         });
 

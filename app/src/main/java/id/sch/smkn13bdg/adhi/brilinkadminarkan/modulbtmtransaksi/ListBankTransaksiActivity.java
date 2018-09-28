@@ -45,7 +45,7 @@ public class ListBankTransaksiActivity extends AppCompatActivity {
     List<DataBankController> dataController = new ArrayList<DataBankController>();
     DataBankAdapter adapter;
     ListView listView;
-    String tarif;
+    String tarif, banknama, bankkode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,9 @@ public class ListBankTransaksiActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     final int position, long id) {
-                String bank = dataController.get(position).getNamabank();
-                load_tarif_to_server(bank, nominal);
+                banknama = dataController.get(position).getNamabank();
+                bankkode = dataController.get(position).getKodebank();
+                load_tarif_to_server(banknama, bankkode, nominal);
             }
         });
     }
@@ -141,7 +142,7 @@ public class ListBankTransaksiActivity extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public void load_tarif_to_server(final  String bank, final String nominal){
+    public void load_tarif_to_server(final String bank, final String kode,final String nominal){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -168,6 +169,8 @@ public class ListBankTransaksiActivity extends AppCompatActivity {
 
                         Intent intent = new Intent();
                         intent.putExtra("tarif", tarif);
+                        intent.putExtra("namabank", bank);
+                        intent.putExtra("kodebank", kode);
                         setResult(RESULT_OK, intent);
                         pd.dismiss();
                         finish();
@@ -189,7 +192,7 @@ public class ListBankTransaksiActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("banktujuan", bank);
+                params.put("kodebank", kode);
                 params.put("nominal", nominal);
                 return params;
             }
