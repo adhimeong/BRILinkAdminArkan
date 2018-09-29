@@ -13,11 +13,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.shashank.sony.fancytoastlib.FancyToast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import faranjit.currency.edittext.CurrencyEditText;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanCardActivity;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 
 public class TransaksiActivity extends AppCompatActivity {
@@ -33,11 +47,13 @@ public class TransaksiActivity extends AppCompatActivity {
     String urldata1 = "app/cektarif.php";
     String url1 = Server.url_server +urldata1;
 
-    EditText editnokartu, editnotujuan, editpenerima, editbank, editmanual;
-    TextView txttarif;
+    EditText editnokartu, editnotujuan, editpenerima, editbank;
+    TextView txttarif, txtadm;
     CurrencyEditText editnominal;
     Button btnscan, btntarif, btnproses;
-    String jenistransaksi, kodebank;
+    String datajenistransaksi, datanominal, databank, datanokartu, datanotujuan, datapenerima, datatarif, datastatustransaksi;
+    int success;
+    String message;
 
 
     @Override
@@ -46,30 +62,31 @@ public class TransaksiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaksi);
 
         //ambil data dari list jenis transaksi
-        jenistransaksi = getIntent().getStringExtra("jenistransaksi");
+        datajenistransaksi = getIntent().getStringExtra("jenistransaksi");
+        datastatustransaksi = "antri";
 
         //permisi kamera
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSION_REQUEST);
         }
 
+        pd = new ProgressDialog(this);
+        pd.setMessage("loading");
+
         editnokartu = (EditText) findViewById(R.id.edittransaksinokartu);
         editnotujuan = (EditText) findViewById(R.id.edittransaksitujuan);
         editnominal = (CurrencyEditText)findViewById(R.id.edittransaksinominal);
         editpenerima = (EditText)findViewById(R.id.edittransaksipenerima);
         editbank = (EditText)findViewById(R.id.edittransaksibank);
-        editmanual = (EditText)findViewById(R.id.edittransaksitarif);
         txttarif = (TextView) findViewById(R.id.txttransaksitarif);
+        txtadm = (TextView)findViewById(R.id.txttransaksitxtadm);
         btntarif = (Button) findViewById(R.id.btntransaksiloadtarif);
         btnscan = (Button) findViewById(R.id.btntransaksiscan);
         btnproses = (Button)findViewById(R.id.btntransasiproses);
 
-        Log.d("jenis", jenistransaksi);
-
-        switch (jenistransaksi){
+        switch (datajenistransaksi){
             case "Transfer BRI":
                 editbank.setText("BANK BRI");
-                kodebank = "002";
                 break;
             case  "Transfer Bank Lain":
 
@@ -82,12 +99,25 @@ public class TransaksiActivity extends AppCompatActivity {
                 editnotujuan.setHint("Nomor Ponsel");
                 editpenerima.setVisibility(View.GONE);
                 editbank.setVisibility(View.GONE);
+                btntarif.setVisibility(View.GONE);
+                txtadm.setVisibility(View.GONE);
+                txttarif.setVisibility(View.GONE);
+                editbank.setText("");
+                editpenerima.setText("");
+                txttarif.setText("");
                 break;
             case "BPJS Kesehatan":
                 editnotujuan.setHint("Nomor BPJS");
                 editbank.setVisibility(View.GONE);
                 editpenerima.setVisibility(View.GONE);
                 editnominal.setVisibility(View.GONE);
+                btntarif.setVisibility(View.GONE);
+                txtadm.setVisibility(View.GONE);
+                txttarif.setVisibility(View.GONE);
+                editbank.setText("");
+                editpenerima.setText("");
+                editnominal.setText("0");
+                txttarif.setText("");
                 break;
 
             case "PLN":
@@ -95,18 +125,31 @@ public class TransaksiActivity extends AppCompatActivity {
                 editbank.setVisibility(View.GONE);
                 editpenerima.setVisibility(View.GONE);
                 editnominal.setVisibility(View.GONE);
+                btntarif.setVisibility(View.GONE);
+                txtadm.setVisibility(View.GONE);
+                txttarif.setVisibility(View.GONE);
+                editbank.setText("");
+                editpenerima.setText("");
+                editnominal.setText("0");
+                txttarif.setText("");
                 break;
             case "Cicilan":
                 editnotujuan.setHint("Nomor Pelanggan");
                 editbank.setVisibility(View.GONE);
                 editpenerima.setVisibility(View.GONE);
                 editnominal.setVisibility(View.GONE);
+                btntarif.setVisibility(View.GONE);
+                txtadm.setVisibility(View.GONE);
+                txttarif.setVisibility(View.GONE);
+                editbank.setText("");
+                editpenerima.setText("");
+                editnominal.setText("0");
+                txttarif.setText("");
                 break;
             case "Transaksi Lainnya":
 
                 break;
         }
-
 
 
         btnscan.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +165,18 @@ public class TransaksiActivity extends AppCompatActivity {
         btntarif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                databank = editbank.getText().toString();
 
+                try {
+                    double dd = editnominal.getCurrencyDouble();
+                    int id = (int)dd;
+                    datanominal = String.valueOf(id);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                load_tarif_to_server(databank, datanominal);
             }
         });
 
@@ -130,9 +184,23 @@ public class TransaksiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                datanokartu = editnokartu.getText().toString();
+                datanotujuan = editnotujuan.getText().toString();
+                    try {
+                        double dd = editnominal.getCurrencyDouble();
+                        int id = (int)dd;
+                        datanominal = String.valueOf(id);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                datapenerima = editpenerima.getText().toString();
+                databank = editbank.getText().toString();
+                datatarif = txttarif.getText().toString();
+
+                load_proses_transaksi_to_server(datanokartu,datanotujuan, datanominal,datapenerima,databank, datajenistransaksi,datatarif,datastatustransaksi);
             }
         });
-
 
     }
 
@@ -150,5 +218,137 @@ public class TransaksiActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    public void load_tarif_to_server(final String bankserv, final String nominalserv ){
+        pd.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url1,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("string",response);
+
+                        try {
+
+                            JSONArray jsonarray = new JSONArray(response);
+
+                            for(int i=0; i < jsonarray.length(); i++) {
+
+                                JSONObject jsonobject = jsonarray.getJSONObject(i);
+
+                                String tarif = jsonobject.getString("tarif_tansaksi").trim();
+                                txttarif.setText(tarif.toString());
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("banktujuan", bankserv);
+                params.put("nominal", nominalserv);
+                return params;
+            }
+
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g, final String h){
+        pd.show();
+
+        Log.d("no_kartu", a);
+        Log.d("rektujuan", b);
+        Log.d("nominal", c);
+        Log.d("penerima", d);
+        Log.d("bank", e);
+        Log.d("jenis_transaksi", f);
+        Log.d("tariftransaksi", g);
+        Log.d("status_transaksi", h);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response: ",response.toString());
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+
+                            success = jObj.getInt("success");
+                            message = jObj.getString("message");
+
+                            // Cek error node pada json
+                            if (success == 1) {
+                                Log.d("BACA", "KEBACA");
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
+                                finish();
+                            } else {
+                                FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                            }
+                        } catch (JSONException e) {
+                            // JSON error
+                            e.printStackTrace();
+                        }
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("no_kartu", a);
+                params.put("rektujuan", b);
+                params.put("nominal", c);
+                params.put("penerima", d);
+                params.put("bank", e);
+                params.put("jenis_transaksi", f);
+                params.put("tariftransaksi", g);
+                params.put("status_transaksi", h);
+                return params;
+            }
+
+        };
+
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+
     }
 }
