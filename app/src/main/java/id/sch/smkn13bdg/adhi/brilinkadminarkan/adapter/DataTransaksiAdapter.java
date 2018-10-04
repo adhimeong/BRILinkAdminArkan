@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
         TextView nominal;
         TextView jenis;
         TextView bank;
+        TextView tanggal;
+        TextView penerima;
+        TextView admin;
+        ImageView gambar;
     }
 
     public DataTransaksiAdapter(List<DataTransaksiController> data, Context context) {
@@ -52,12 +57,16 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.listdatatransaksi, parent, false);
 
-            viewHolder.idtransaksi = (TextView) convertView.findViewById(R.id.listpointid);
+            viewHolder.idtransaksi = (TextView) convertView.findViewById(R.id.listtransid);
             viewHolder.nokartu = (TextView) convertView.findViewById(R.id.listtransnokartu);
             viewHolder.nominal = (TextView) convertView.findViewById(R.id.listtransnominal);
-            viewHolder.rektujuan = (TextView) convertView.findViewById(R.id.listpointtanggal);
-            viewHolder.bank = (TextView) convertView.findViewById(R.id.listpointwaktu);
-            viewHolder.jenis = (TextView) convertView.findViewById(R.id.listpointadmin);
+            viewHolder.rektujuan = (TextView) convertView.findViewById(R.id.listtransrek);
+            viewHolder.bank = (TextView) convertView.findViewById(R.id.listtransbank);
+            viewHolder.jenis = (TextView) convertView.findViewById(R.id.listtransjenis);
+            viewHolder.tanggal = (TextView) convertView.findViewById(R.id.listtranstanggal);
+            viewHolder.penerima = (TextView) convertView.findViewById(R.id.listtranspenerima);
+            viewHolder.admin = (TextView) convertView.findViewById(R.id.listtransadmin);
+            viewHolder.gambar = (ImageView) convertView.findViewById(R.id.listtrangambar);
 
             result = convertView;
 
@@ -76,6 +85,9 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
         viewHolder.rektujuan.setText(String.valueOf(data.getRek_tujuan()));
         viewHolder.bank.setText(String.valueOf(data.getBank()));
         viewHolder.jenis.setText(String.valueOf(data.getJenis()));
+        viewHolder.tanggal.setText(String.valueOf(data.getTanggaltransaksi()));
+        viewHolder.penerima.setText(String.valueOf(data.getPenerima()));
+        viewHolder.admin.setText(String.valueOf(data.getNamaadmin()));
 
         return convertView;
     }

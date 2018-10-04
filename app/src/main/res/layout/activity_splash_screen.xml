@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/birutua"
+    android:padding="55dp"
     tools:context="id.sch.smkn13bdg.adhi.brilinkadminarkan.SplashScreenActivity">
 
     <ImageView

@@ -37,7 +37,7 @@ public class PrintActivity extends Activity implements Runnable{
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
 
-    String nokartu, rektujuan, nominal, bank, tarif;
+    String nokartu, rektujuan, nominal, bank, tarif, jenistransaksi, penerima, kodebank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,27 @@ public class PrintActivity extends Activity implements Runnable{
 
 
         //ambil data dari fragment
+        jenistransaksi = getIntent().getStringExtra("jenis_transksi");
         nokartu = getIntent().getStringExtra("nokartu");
         rektujuan = getIntent().getStringExtra("rektujuan");
         nominal = getIntent().getStringExtra("nominal");
         bank = getIntent().getStringExtra("bank");
         tarif = getIntent().getStringExtra("tarif");
+        penerima = getIntent().getStringExtra("penerima");
+        kodebank = getIntent().getStringExtra("kode");
+
+
         int a = Integer.parseInt(nominal);
-        int b = Integer.parseInt(tarif);
-        int total = a + b;
+        int b;
+        int total;
+        if (tarif.equals("")){
+            b = 0;
+        }else{
+            b = Integer.parseInt(tarif);
+        }
+
+        total = a + b;
+
         final String totalbayar = String.valueOf(total);
 
         Calendar calendar = Calendar.getInstance();
@@ -110,12 +123,60 @@ public class PrintActivity extends Activity implements Runnable{
                             BILL = BILL + "\n";
                             BILL = BILL + "TANGGAL : " + tanggal + "\n";
                             BILL = BILL + "PUKUL : " + waktu + "\n";
+                            BILL = BILL + "JENIS TRANSAKSI : " + "\n";
+                            BILL = BILL +  jenistransaksi + "\n";
                             BILL = BILL
                                     + "--------------------------------";
-                            BILL = BILL + "\n" + "BANK  : " + bank ;
-                            BILL = BILL + "\n" + "NO REKENING : " + rektujuan;
-                            BILL = BILL + "\n" + "NAMA PENERIMA : " + "SARI PUSPITA";
-                            BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            if (jenistransaksi.equals("Transfer BRI")){
+
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if (jenistransaksi.equals("Transfer Bank Lain")){
+
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if(jenistransaksi.equals("Tarik Tunai")){
+
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if (jenistransaksi.equals("Pulsa & Paket Data")){
+                                BILL = BILL + "\n" + "NO TELPON : " + rektujuan;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if(jenistransaksi.equals("BPJS Kesehatan")){
+                                BILL = BILL + "\n" + "NO ID : " + rektujuan;
+
+                            }else if(jenistransaksi.equals("PLN")){
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if (jenistransaksi.equals("Cicilan")){
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }else if (jenistransaksi.equals("Transaksi Lainnya")){
+
+                                BILL = BILL + "\n" + "BANK  : " + bank ;
+                                BILL = BILL + "\n" + "NO REKENING : " +" ( "+ kodebank +" ) " + rektujuan;
+                                BILL = BILL + "\n" + "NAMA PENERIMA : " + penerima;
+                                BILL = BILL + "\n" + "NOMINAL : " + nominal;
+
+                            }
+
 
                             BILL = BILL
                                     + "\n--------------------------------";

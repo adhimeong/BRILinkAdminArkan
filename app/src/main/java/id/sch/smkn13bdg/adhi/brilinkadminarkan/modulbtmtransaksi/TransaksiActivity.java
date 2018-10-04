@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import faranjit.currency.edittext.CurrencyEditText;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.PrintActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.R;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.ScanCardActivity;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
@@ -53,7 +54,7 @@ public class TransaksiActivity extends AppCompatActivity {
     Button btnscan, btntarif, btnproses;
     String datajenistransaksi, datanominal, databank, datanokartu, datanotujuan, datapenerima, datatarif, datastatustransaksi;
     int success;
-    String message;
+    String message, banknama, bankkode;
 
 
     @Override
@@ -104,7 +105,7 @@ public class TransaksiActivity extends AppCompatActivity {
                 txttarif.setVisibility(View.GONE);
                 editbank.setText("");
                 editpenerima.setText("");
-                txttarif.setText("");
+                txttarif.setText("0");
                 break;
             case "BPJS Kesehatan":
                 editnotujuan.setHint("Nomor BPJS");
@@ -135,14 +136,13 @@ public class TransaksiActivity extends AppCompatActivity {
                 break;
             case "Cicilan":
                 editnotujuan.setHint("Nomor Pelanggan");
+                editpenerima.setHint("Nama Leasing");
                 editbank.setVisibility(View.GONE);
-                editpenerima.setVisibility(View.GONE);
                 editnominal.setVisibility(View.GONE);
                 btntarif.setVisibility(View.GONE);
                 txtadm.setVisibility(View.GONE);
                 txttarif.setVisibility(View.GONE);
                 editbank.setText("");
-                editpenerima.setText("");
                 editnominal.setText("0");
                 txttarif.setText("");
                 break;
@@ -176,7 +176,16 @@ public class TransaksiActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                load_tarif_to_server(databank, datanominal);
+
+                if (datajenistransaksi.equals("Transfer Bank Lain") || datajenistransaksi.equals("Tarik Tunai") ){
+                    Intent intent = new Intent(getApplicationContext(), ListBankTransaksiActivity.class);
+                    intent.putExtra("nominal", datanominal);
+                    intent.putExtra("bank", databank);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }else{
+                    bankkode = "002";
+                    load_tarif_to_server(bankkode, datanominal);
+                }
             }
         });
 
@@ -199,6 +208,18 @@ public class TransaksiActivity extends AppCompatActivity {
                 datatarif = txttarif.getText().toString();
 
                 load_proses_transaksi_to_server(datanokartu,datanotujuan, datanominal,datapenerima,databank, datajenistransaksi,datatarif,datastatustransaksi);
+                pd.dismiss();
+
+                Intent i = new Intent(TransaksiActivity.this, PrintActivity.class);
+                i.putExtra("jenis_transksi", datajenistransaksi);
+                i.putExtra("nokartu", datanokartu);
+                i.putExtra("rektujuan", datanotujuan);
+                i.putExtra("nominal", datanominal);
+                i.putExtra("penerima", datapenerima);
+                i.putExtra("bank", banknama);
+                i.putExtra("kode", bankkode);
+                i.putExtra("tarif", datatarif);
+                startActivity(i);
             }
         });
 
@@ -209,18 +230,30 @@ public class TransaksiActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null) {
                 final Barcode barcode = data.getParcelableExtra("barcode");
-                editnokartu.post(new Runnable() {
+                final String tariftxt = data.getStringExtra("tarif");
 
-                    @Override
-                    public void run() {
-                        editnokartu.setText(barcode.displayValue);
-                    }
-                });
+                if (barcode != null){
+                    editnokartu.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            editnokartu.setText(barcode.displayValue);
+                        }
+                    });
+
+                }else if(tariftxt != null){
+
+                    banknama = data.getStringExtra("namabank");
+                    bankkode = data.getStringExtra("kodebank");
+                    editbank.setText(banknama);
+                    txttarif.setText(tariftxt);
+
+                }
             }
         }
     }
 
-    public void load_tarif_to_server(final String bankserv, final String nominalserv ){
+    public void load_tarif_to_server(final String kode, final String nominal ){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -240,13 +273,13 @@ public class TransaksiActivity extends AppCompatActivity {
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
 
                                 String tarif = jsonobject.getString("tarif_tansaksi").trim();
+
                                 txttarif.setText(tarif.toString());
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
                         pd.hide();
                     }
@@ -267,8 +300,8 @@ public class TransaksiActivity extends AppCompatActivity {
             protected Map<String, String> getParams()
             {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("banktujuan", bankserv);
-                params.put("nominal", nominalserv);
+                params.put("kodebank", kode);
+                params.put("nominal", nominal);
                 return params;
             }
 
@@ -279,15 +312,6 @@ public class TransaksiActivity extends AppCompatActivity {
 
     public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g, final String h){
         pd.show();
-
-        Log.d("no_kartu", a);
-        Log.d("rektujuan", b);
-        Log.d("nominal", c);
-        Log.d("penerima", d);
-        Log.d("bank", e);
-        Log.d("jenis_transaksi", f);
-        Log.d("tariftransaksi", g);
-        Log.d("status_transaksi", h);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
@@ -309,6 +333,7 @@ public class TransaksiActivity extends AppCompatActivity {
                                 Log.d("BACA", "KEBACA");
                                 FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
                                 finish();
+                                pd.dismiss();
                             } else {
                                 FancyToast.makeText(getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
                             }

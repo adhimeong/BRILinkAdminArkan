@@ -5,12 +5,40 @@ package id.sch.smkn13bdg.adhi.brilinkadminarkan.getset;
  */
 
 public class DataTransaksiController {
+
     String id_tansaksi;
+    String tanggaltransaksi;
     String no_kartu;
     String rek_tujuan;
     String nominal;
     String bank;
     String jenis;
+    String namaadmin;
+    String penerima;
+
+    public String getTanggaltransaksi() {
+        return tanggaltransaksi;
+    }
+
+    public void setTanggaltransaksi(String tanggaltransaksi) {
+        this.tanggaltransaksi = tanggaltransaksi;
+    }
+
+    public String getNamaadmin() {
+        return namaadmin;
+    }
+
+    public void setNamaadmin(String namaadmin) {
+        this.namaadmin = namaadmin;
+    }
+
+    public String getPenerima() {
+        return penerima;
+    }
+
+    public void setPenerima(String penerima) {
+        this.penerima = penerima;
+    }
 
     public String getBank() {
         return bank;

@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,8 +34,6 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.SharedPrefManager;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.adapter.DataTarifAdapter;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTarifControler;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmhadiah.DetailHadiahActivity;
-import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.TransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
 

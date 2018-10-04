@@ -92,7 +92,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
             public void onClick(View view) {
                 Intent i = new Intent(getActivity().getApplicationContext(), JenisTransaksiActivity.class);
                 startActivity(i);
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new TransaksiFragment()).commit();
             }
         });
 
@@ -103,8 +102,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                 startActivity(i);
             }
         });
-
-
 
 
         dataController.clear();
@@ -243,6 +240,9 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                                 String nominal = jsonobject.getString("nominal").trim();
                                 String bank = jsonobject.getString("bank_tujuan").trim();
                                 String jenis = jsonobject.getString("jenis_transaksi").trim();
+                                String tanggal = jsonobject.getString("tanggal").trim();
+                                String penerima = jsonobject.getString("penerima").trim();
+                                String admin = jsonobject.getString("admin");
 
                                 DataTransaksiController d1 = new DataTransaksiController();
                                 d1.setId_tansaksi(id_transaksi.toString());
@@ -251,6 +251,9 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                                 d1.setNominal(nominal.toString());
                                 d1.setBank(bank.toString());
                                 d1.setJenis(jenis.toString());
+                                d1.setNamaadmin(admin.toString());
+                                d1.setPenerima(penerima.toString());
+                                d1.setTanggaltransaksi(tanggal.toString());
 
                                 dataController.add(d1);
                             }

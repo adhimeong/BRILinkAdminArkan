@@ -105,8 +105,7 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
                 txttarif = tarifview.getText().toString();
                 statustransaksi = "selesai";
                 jenistransaksi = "SETOR";
-                Log.d("namabank", banknama);
-                Log.d("kodebank", bankkode);
+
 
                 load_proses_transaksi_to_server(txtnokartu, txtnorek, txtnominal, banknama, jenistransaksi, txttarif, statustransaksi);
 
