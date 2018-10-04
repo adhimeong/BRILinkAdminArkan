@@ -8,6 +8,7 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.AntrianTransaks
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.BatalTransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.BerhasilTransaksiFragment;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.GagalTransaksiFragment;
+import id.sch.smkn13bdg.adhi.brilinkadminarkan.modulbtmtransaksi.KeepProsesTransaksiFragment;
 
 /**
  * Created by adhi on 24/08/18.
@@ -29,10 +30,12 @@ public class PagerTransaksiAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new AntrianTransaksiFragment();
             case 1:
-                return new GagalTransaksiFragment();
+                return new KeepProsesTransaksiFragment();
             case 2:
-                return new BatalTransaksiFragment();
+                return new GagalTransaksiFragment();
             case 3:
+                return new BatalTransaksiFragment();
+            case 4:
                 return new BerhasilTransaksiFragment();
             default:
                 return null;

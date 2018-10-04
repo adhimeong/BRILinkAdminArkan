@@ -23,6 +23,8 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
 
     private List<DataTransaksiController> data;
 
+    String txtidtransaksi, txtnokartu, txtrektujuan, txtnominal, txtjenis, txtbank, txttanggal, txtpenerima, txtadmin;
+
     Context mContext;
 
     private static class ViewHolder {
@@ -79,14 +81,61 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
 
         }
 
+        txtidtransaksi = data.getId_tansaksi();
+        txtnokartu = data.getNo_kartu();
+        txtnominal = data.getNominal();
+        txtrektujuan = data.getRek_tujuan();
+        txtbank = data.getBank();
+        txtjenis = data.getJenis();
+        txttanggal = data.getTanggaltransaksi();
+        txtpenerima = data.getPenerima();
+        txtadmin = data.getNamaadmin();
+
+        if (txtnominal.equals("null")){
+            txtnominal = "";
+        }
+
+        if (txtbank.equals("null")){
+            txtbank = "";
+        }
+
+        if (txtrektujuan.equals("null")){
+            txtrektujuan = "";
+        }
+
+        if (txtpenerima.equals("null")){
+            txtpenerima = "";
+        }
+
+        if (txtjenis.equals("point")){
+            viewHolder.gambar.setImageResource(R.drawable.ic_stars_black_24dp);
+        }else if (txtjenis.equals("Transfer BRI")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_sesama);
+        }else if (txtjenis.equals("Transfer Bank Lain")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_antar);
+        }else if (txtjenis.equals("Tarik Tunai")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_tarik);
+        }else if (txtjenis.equals("Pulsa & Paket Data")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_pulsa);
+        }else if (txtjenis.equals("BPJS Kesehatan")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_bpjs);
+        }else if (txtjenis.equals("PLN")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_pln);
+        }else if (txtjenis.equals("Cicilan")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_cicilan);
+        }else if (txtjenis.equals("Transaksi Lainnya")){
+            viewHolder.gambar.setImageResource(R.drawable.transaksi_lain);
+        }
+
+
         viewHolder.idtransaksi.setText(String.valueOf(data.getId_tansaksi()));
         viewHolder.nokartu.setText(String.valueOf(data.getNo_kartu()));
-        viewHolder.nominal.setText(String.valueOf(data.getNominal()));
-        viewHolder.rektujuan.setText(String.valueOf(data.getRek_tujuan()));
-        viewHolder.bank.setText(String.valueOf(data.getBank()));
+        viewHolder.nominal.setText(String.valueOf(txtnominal));
+        viewHolder.rektujuan.setText(String.valueOf(txtrektujuan));
+        viewHolder.bank.setText(String.valueOf(txtbank));
         viewHolder.jenis.setText(String.valueOf(data.getJenis()));
         viewHolder.tanggal.setText(String.valueOf(data.getTanggaltransaksi()));
-        viewHolder.penerima.setText(String.valueOf(data.getPenerima()));
+        viewHolder.penerima.setText(String.valueOf(txtpenerima));
         viewHolder.admin.setText(String.valueOf(data.getNamaadmin()));
 
         return convertView;

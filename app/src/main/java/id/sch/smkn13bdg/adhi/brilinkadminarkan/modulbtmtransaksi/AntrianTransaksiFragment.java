@@ -60,7 +60,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
     List<DataTransaksiController> dataController = new ArrayList<DataTransaksiController>();
     DataTransaksiAdapter adapter;
     ListView listView;
-    String idadmin;
+    String idadmin, username;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -83,6 +83,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
 
         UserController user = SharedPrefManager.getInstance(getActivity().getApplicationContext()).getUser();
         idadmin = user.getIdadmin();
+        username = user.getUsername();
 
         final FloatingActionButton fab2 = view.findViewById(R.id.fab2);
         final FloatingActionButton fab3 = view.findViewById(R.id.fab3);
@@ -134,6 +135,20 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                                         pDialog.dismiss();
                                     }
                                 })
+                        .addButton(
+                                "SORTIR UNTUK SAYA",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.ungu,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+                                        String datastatustransaksi = "antri";
+                                        load_proses_update_transaksi_to_server(dataidtransaksi, datanokartu, datastatustransaksi, idadmin);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
                         .addButton(
                                 "BERHASIL",     // button text
                                 R.color.pdlg_color_white,  // button text color
@@ -207,7 +222,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
             public void run() {
 
                 // Fetching data from server
-                load_data_from_server();
+                load_data_from_server(idadmin);
 
             }
         });
@@ -216,7 +231,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
         return view;
     }
 
-    public void load_data_from_server() {
+    public void load_data_from_server(final String admin) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
@@ -275,7 +290,16 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                     }
                 }
 
-        );
+        ){
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id_admin", admin);
+                return params;
+            }
+
+        };
 
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
@@ -300,8 +324,6 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                             // Cek error node pada json
                             if (success == 1) {
                                 Log.d("Add/update transaksi", jObj.toString());
-                                dataController.clear();
-                                load_data_from_server();
                                 FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
                             } else {
                                 FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
@@ -310,6 +332,9 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                             // JSON error
                             e.printStackTrace();
                         }
+
+                        dataController.clear();
+                        load_data_from_server(idadmin);
                         pd.hide();
                     }
                 },
@@ -344,7 +369,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         dataController.clear();
-        load_data_from_server();
+        load_data_from_server(idadmin);
     }
 
     @Override
