@@ -107,6 +107,11 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
             txtpenerima = "";
         }
 
+        if (txtadmin.equals("null")){
+            txtadmin = "belum diproses";
+        }
+
+
         if (txtjenis.equals("point")){
             viewHolder.gambar.setImageResource(R.drawable.ic_stars_black_24dp);
         }else if (txtjenis.equals("Transfer BRI")){
@@ -136,7 +141,7 @@ public class DataTransaksiAdapter extends ArrayAdapter<DataTransaksiController> 
         viewHolder.jenis.setText(String.valueOf(data.getJenis()));
         viewHolder.tanggal.setText(String.valueOf(data.getTanggaltransaksi()));
         viewHolder.penerima.setText(String.valueOf(txtpenerima));
-        viewHolder.admin.setText(String.valueOf(data.getNamaadmin()));
+        viewHolder.admin.setText(String.valueOf(txtadmin));
 
         return convertView;
     }

@@ -222,7 +222,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
             public void run() {
 
                 // Fetching data from server
-                load_data_from_server(idadmin);
+                load_data_from_server();
 
             }
         });
@@ -231,7 +231,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
         return view;
     }
 
-    public void load_data_from_server(final String admin) {
+    public void load_data_from_server() {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,
@@ -290,16 +290,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                     }
                 }
 
-        ){
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("id_admin", admin);
-                return params;
-            }
-
-        };
+        );
 
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
     }
@@ -334,7 +325,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
                         }
 
                         dataController.clear();
-                        load_data_from_server(idadmin);
+                        load_data_from_server();
                         pd.hide();
                     }
                 },
@@ -369,7 +360,7 @@ public class AntrianTransaksiFragment extends Fragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         dataController.clear();
-        load_data_from_server(idadmin);
+        load_data_from_server();
     }
 
     @Override
