@@ -104,26 +104,15 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
                 txtpenerima = penerima.getText().toString();
                 txttarif = tarifview.getText().toString();
                 statustransaksi = "selesai";
-                jenistransaksi = "SETOR";
+                jenistransaksi = "Scan Antrian";
 
-
-                load_proses_transaksi_to_server(txtnokartu, txtnorek, txtnominal, banknama, jenistransaksi, txttarif, statustransaksi);
-
-                Intent i = new Intent(TransaksiScanTextActivity.this, PrintActivity.class);
-                i.putExtra("nokartu", txtnokartu);
-                i.putExtra("rektujuan", txtnorek);
-                i.putExtra("nominal", txtnominal);
-                i.putExtra("penerima", txtpenerima);
-                i.putExtra("bank", banknama);
-                i.putExtra("kode", bankkode);
-                i.putExtra("tarif", txttarif);
-                startActivity(i);
+                load_proses_transaksi_to_server(txtnokartu, txtnorek, txtnominal, txtpenerima, banknama, jenistransaksi, txttarif, statustransaksi);
 
             }
         });
     }
 
-    public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g){
+    public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g, final String h){
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -152,6 +141,18 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         pd.hide();
+
+                        Intent i = new Intent(TransaksiScanTextActivity.this, PrintActivity.class);
+                        i.putExtra("jenis_transksi", jenistransaksi);
+                        i.putExtra("nokartu", txtnokartu);
+                        i.putExtra("rektujuan", txtnorek);
+                        i.putExtra("nominal", txtnominal);
+                        i.putExtra("penerima", txtpenerima);
+                        i.putExtra("bank", banknama);
+                        i.putExtra("kode", bankkode);
+                        i.putExtra("tarif", txttarif);
+                        startActivity(i);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -173,10 +174,11 @@ public class TransaksiScanTextActivity extends AppCompatActivity {
                 params.put("no_kartu", a);
                 params.put("rektujuan", b);
                 params.put("nominal", c);
-                params.put("bank", d);
-                params.put("jenis_transaksi", e);
-                params.put("tariftransaksi", f);
-                params.put("status_transaksi", g);
+                params.put("penerima", d);
+                params.put("bank", e);
+                params.put("jenis_transaksi", f);
+                params.put("tariftransaksi", g);
+                params.put("status_transaksi", h);
                 return params;
             }
 

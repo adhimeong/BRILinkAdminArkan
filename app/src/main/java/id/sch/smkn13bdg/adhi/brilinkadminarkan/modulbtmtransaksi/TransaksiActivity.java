@@ -208,18 +208,7 @@ public class TransaksiActivity extends AppCompatActivity {
                 datatarif = txttarif.getText().toString();
 
                 load_proses_transaksi_to_server(datanokartu,datanotujuan, datanominal,datapenerima,databank, datajenistransaksi,datatarif,datastatustransaksi);
-                pd.dismiss();
 
-                Intent i = new Intent(TransaksiActivity.this, PrintActivity.class);
-                i.putExtra("jenis_transksi", datajenistransaksi);
-                i.putExtra("nokartu", datanokartu);
-                i.putExtra("rektujuan", datanotujuan);
-                i.putExtra("nominal", datanominal);
-                i.putExtra("penerima", datapenerima);
-                i.putExtra("bank", banknama);
-                i.putExtra("kode", bankkode);
-                i.putExtra("tarif", datatarif);
-                startActivity(i);
             }
         });
 
@@ -311,6 +300,7 @@ public class TransaksiActivity extends AppCompatActivity {
     }
 
     public void load_proses_transaksi_to_server(final String a, final String b, final String c, final String d, final String e, final String f, final String g, final String h){
+
         pd.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -341,7 +331,20 @@ public class TransaksiActivity extends AppCompatActivity {
                             // JSON error
                             e.printStackTrace();
                         }
+
                         pd.hide();
+
+                        Intent i = new Intent(TransaksiActivity.this, PrintActivity.class);
+                        i.putExtra("jenis_transksi", datajenistransaksi);
+                        i.putExtra("nokartu", datanokartu);
+                        i.putExtra("rektujuan", datanotujuan);
+                        i.putExtra("nominal", datanominal);
+                        i.putExtra("penerima", datapenerima);
+                        i.putExtra("bank", banknama);
+                        i.putExtra("kode", bankkode);
+                        i.putExtra("tarif", datatarif);
+                        startActivity(i);
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -359,6 +362,7 @@ public class TransaksiActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams()
             {
+
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("no_kartu", a);
                 params.put("rektujuan", b);

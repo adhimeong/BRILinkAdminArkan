@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,6 +35,8 @@ import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.DataTransaksiController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.getset.UserController;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.MySingleton;
 import id.sch.smkn13bdg.adhi.brilinkadminarkan.volley.Server;
+import libs.mjn.prettydialog.PrettyDialog;
+import libs.mjn.prettydialog.PrettyDialogCallback;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,6 +105,89 @@ public class KeepProsesTransaksiFragment extends Fragment implements SwipeRefres
                 // Fetching data from server
                 load_data_from_server(idadmin);
 
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    final int position, long id) {
+                final String dataidtransaksi = dataController.get(position).getId_tansaksi();
+                final String datanokartu = dataController.get(position).getNo_kartu();
+                Toast.makeText(getActivity(), "id transaksi : " + dataidtransaksi, Toast.LENGTH_SHORT).show();
+
+                //pengumaman
+                final PrettyDialog pDialog = new PrettyDialog(getActivity());
+                pDialog
+                        .setTitle("KONFIRMASI")
+                        .setTitleColor(R.color.colorAccent)
+                        .setMessage("Rubah status transaksi ? ")
+                        .setAnimationEnabled(false)
+                        .setIcon(
+                                R.drawable.pdlg_icon_info,     // icon resource
+                                R.color.colorAccent,      // icon tint
+                                new PrettyDialogCallback() {   // icon OnClick listener
+                                    @Override
+                                    public void onClick() {
+                                        pDialog.dismiss();
+                                    }
+                                })
+
+                        .addButton(
+                                "BERHASIL",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.hijau,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+                                        String datastatustransaksi = "selesai";
+                                        load_proses_update_transaksi_to_server(dataidtransaksi, datanokartu, datastatustransaksi, idadmin);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .addButton(
+                                "PENDING",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.kuning,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        String datastatustransaksi = "gagal";
+                                        load_proses_update_transaksi_to_server(dataidtransaksi,datanokartu, datastatustransaksi, idadmin);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .addButton(
+                                "BATAL",     // button text
+                                R.color.pdlg_color_white,  // button text color
+                                R.color.merah,  // button background color
+                                new PrettyDialogCallback() {  // button OnClick listener
+                                    @Override
+                                    public void onClick() {
+
+                                        String datastatustransaksi = "batal";
+                                        load_proses_update_transaksi_to_server(dataidtransaksi,datanokartu, datastatustransaksi, idadmin);
+
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .addButton(
+                                "TUTUP",
+                                R.color.pdlg_color_white,
+                                R.color.colorPrimaryDark,
+                                new PrettyDialogCallback() {
+                                    @Override
+                                    public void onClick() {
+                                        pDialog.dismiss();
+                                    }
+                                }
+                        )
+                        .show();
             }
         });
 
@@ -173,6 +260,68 @@ public class KeepProsesTransaksiFragment extends Fragment implements SwipeRefres
             protected Map<String, String> getParams()
             {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("id_admin", admin);
+                return params;
+            }
+
+        };
+
+        MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    public void load_proses_update_transaksi_to_server(final String idtransaksi, final String nokartu, final String status, final String admin){
+        pd.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                url1,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.d("Response: ",response.toString());
+
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            success = jObj.getInt("success");
+                            message = jObj.getString("message");
+
+                            // Cek error node pada json
+                            if (success == 1) {
+                                Log.d("Add/update transaksi", jObj.toString());
+                                FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_SHORT, FancyToast.SUCCESS,true).show();
+                            } else {
+                                FancyToast.makeText(getActivity().getApplicationContext(),message,FancyToast.LENGTH_LONG, FancyToast.WARNING,true).show();
+                            }
+                        } catch (JSONException e) {
+                            // JSON error
+                            e.printStackTrace();
+                        }
+
+                        dataController.clear();
+                        load_data_from_server(idadmin);
+                        pd.hide();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error != null){
+
+                            FancyToast.makeText(getActivity().getApplicationContext(),"Terjadi ganguan dengan koneksi server",FancyToast.LENGTH_LONG, FancyToast.ERROR,true).show();
+                            pd.hide();
+                        }
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id_transaksi", idtransaksi);
+                params.put("no_kartu", nokartu);
+                params.put("status_transaksi", status);
                 params.put("id_admin", admin);
                 return params;
             }
